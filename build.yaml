@@ -1,0 +1,34 @@
+targets:
+  $default:
+    builders:
+      # Ferry GraphQL code generator
+      ferry_generator|graphql_builder:
+        enabled: true
+        options:
+          # Path to your GraphQL schema
+          schema: flutter_forge|lib/graphql/schema.graphql
+          type_overrides:
+            DateTime:
+              name: DateTime
+
+      # Ferry serializer generator
+      ferry_generator|serializer_builder:
+        enabled: true
+        options:
+          schema: flutter_forge|lib/graphql/schema.graphql
+          custom_serializers:
+            - import: "package:built_value/iso_8601_date_time_serializer.dart"
+              name: Iso8601DateTimeSerializer
+          when_extensions:
+            when: true
+            maybeWhen: true
+
+      # JSON Serializable for models
+      json_serializable:
+        options:
+          explicit_to_json: true
+
+      # Auto Route generator
+      auto_route_generator|auto_route_generator:
+        generate_for:
+          - lib/**/**_page.dart

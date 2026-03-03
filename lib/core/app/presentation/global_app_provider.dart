@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_forge/core/app/presentation/blocs/app_startup_cubit.dart';
+import 'package:flutter_forge/core/di/injection.dart';
+import 'package:flutter_forge/core/storage/local_storage.dart';
+import 'package:flutter_forge/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:flutter_forge/features/onboarding/presentation/cubit/onboarding_cubit.dart';
+
+class GlobalAppProvider extends StatelessWidget {
+  final Widget child;
+  const GlobalAppProvider({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AppStartupCubit>(create: (_) => AppStartupCubit(getIt<LocalStorage>())),
+        BlocProvider<OnboardingCubit>(
+          create: (_) => OnboardingCubit(getIt<LocalStorage>())..checkStatus(),
+        ),
+        BlocProvider<LoginCubit>(create: (_) => LoginCubit()),
+      ],
+      child: child,
+    );
+  }
+}

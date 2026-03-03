@@ -1,0 +1,17 @@
+flutter_launcher_icons:
+  # Platforms
+  android: true
+  ios: true
+
+  # Main icon (used for iOS + Android legacy)
+  image_path: "assets/icons/app_icon.png"
+
+  # Android adaptive icon (API 26+)
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icons/app_icon_foreground.png"
+
+  # Android min sdk
+  min_sdk_android: 21
+
+  # iOS
+  remove_alpha_ios: true

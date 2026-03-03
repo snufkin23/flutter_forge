@@ -1,0 +1,21 @@
+{
+  "@@locale": "ne",
+  "appName": "फ्लटर फोर्ज",
+  "continueButton": "जारी राख्नुहोस्",
+  "getStarted": "सुरु गर्नुहोस्",
+  "skip": "छोड्नुहोस्",
+  "onboardingTitle1": "फ्लटर फोर्जमा स्वागत छ",
+  "onboardingDesc1": "गति र मापनीयताका लागि बनाइएको तपाईंको अन्तिम फ्लटर टेम्प्लेट।",
+  "onboardingTitle2": "क्लिन आर्किटेक्चर",
+  "onboardingDesc2": "क्लिन आर्किटेक्चर, DI, र कोड जेनेरेसनसहित निर्मित।",
+  "onboardingTitle3": "बनाउन तयार",
+  "onboardingDesc3": "उत्पादन-तयार एपहरू बनाउन सुरु गर्न तपाईंलाई चाहिने सबै कुरा।",
+  "login": "लगइन",
+  "logout": "लगआउट",
+  "email": "इमेल",
+  "password": "पासवर्ड",
+  "welcomeBack": "फिर्ता स्वागत छ",
+  "homeTitle": "गृहपृष्ठ",
+  "errorSomethingWentWrong": "केही गलत भयो। कृपया पुनः प्रयास गर्नुहोस्।",
+  "errorNoInternet": "इन्टरनेट जडान छैन।"
+}

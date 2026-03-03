@@ -1,0 +1,23 @@
+flutter_native_splash:
+  # Background color
+  color: "#FFFFFF"
+
+  # Your splash image (drop a PNG here)
+  image: assets/icons/splash_logo.png
+
+  # Disable full screen mode on Android
+  fullscreen: false
+
+  # Android 12+ specific (has its own splash API)
+  android_12:
+    color: "#FFFFFF"
+    image: assets/icons/splash_logo.png
+    icon_background_color: "#FFFFFF"
+
+  # Platforms
+  ios: true
+  android: true
+
+  # Keep splash until app is ready (you manually remove it)
+  android_gravity: center
+  ios_content_mode: center

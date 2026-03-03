@@ -1,0 +1,21 @@
+{
+  "@@locale": "en",
+  "appName": "Flutter Forge",
+  "continueButton": "Continue",
+  "getStarted": "Get Started",
+  "skip": "Skip",
+  "onboardingTitle1": "Welcome to Flutter Forge",
+  "onboardingDesc1": "Your ultimate Flutter project template, forged for speed and scalability.",
+  "onboardingTitle2": "Clean Architecture",
+  "onboardingDesc2": "Built with clean architecture, DI, and code generation out of the box.",
+  "onboardingTitle3": "Ready to Build",
+  "onboardingDesc3": "Everything you need to start building production-ready apps.",
+  "login": "Login",
+  "logout": "Logout",
+  "email": "Email",
+  "password": "Password",
+  "welcomeBack": "Welcome Back",
+  "homeTitle": "Home",
+  "errorSomethingWentWrong": "Something went wrong. Please try again.",
+  "errorNoInternet": "No internet connection."
+}
