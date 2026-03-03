@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_forge/core/di/injection.dart';
 import 'package:flutter_forge/core/router/app_router.dart';
 import 'package:flutter_forge/core/router/app_router.gr.dart';
+import 'package:flutter_forge/core/theme/theme.dart';
 import 'package:flutter_forge/localization/localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -36,6 +37,9 @@ class _AppState extends State<App> {
         ],
         child: MaterialApp.router(
           routerConfig: _appRouter.config(),
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: ThemeMode.system,
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,

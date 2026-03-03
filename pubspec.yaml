@@ -51,6 +51,7 @@ dependencies:
   flutter_gen: ^5.4.0
   ferry: ^0.16.1+2
   gql_dio_link: ^2.0.0
+  google_fonts: ^8.0.2
 
 dev_dependencies:
   flutter_test:
