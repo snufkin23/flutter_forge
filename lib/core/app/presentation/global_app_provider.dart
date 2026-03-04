@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_forge/core/app/presentation/blocs/app_locale/app_locale_cubit.dart';
 import 'package:flutter_forge/core/app/presentation/blocs/app_startup/app_startup_cubit.dart';
 import 'package:flutter_forge/core/app/presentation/blocs/app_theme/app_theme_cubit.dart';
 import 'package:flutter_forge/core/di/injection.dart';
@@ -18,6 +19,7 @@ class GlobalAppProvider extends StatelessWidget {
       providers: <SingleChildWidget>[
         BlocProvider<AppStartupCubit>(create: (_) => AppStartupCubit(getIt<LocalStorage>())),
         BlocProvider<AppThemeCubit>(create: (_) => AppThemeCubit(getIt<LocalStorage>())),
+        BlocProvider<AppLocaleCubit>(create: (_) => AppLocaleCubit(getIt<LocalStorage>())),
         BlocProvider<OnboardingCubit>(
           create: (_) => OnboardingCubit(getIt<LocalStorage>())..checkStatus(),
         ),

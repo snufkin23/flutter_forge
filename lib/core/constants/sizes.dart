@@ -1,65 +1,67 @@
+import 'package:flutter_screenutil_plus/flutter_screenutil_plus.dart';
+
 abstract class AppSizes {
-  // —— Spacing ——————————————————————————————————————
-  static const double xs = 4;
-  static const double sm = 8;
-  static const double md = 12;
-  static const double lg = 16;
-  static const double xl = 20;
-  static const double xxl = 24;
-  static const double xxxl = 32;
-  static const double xxxxl = 40;
-  static const double xxxxxl = 48;
+  // —— Spacing ——————————————————————————
+  static double get xs => 4.w;
+  static double get sm => 8.w;
+  static double get md => 12.w;
+  static double get lg => 16.w;
+  static double get xl => 20.w;
+  static double get xxl => 24.w;
+  static double get xxxl => 32.w;
+  static double get xxxxl => 40.w;
+  static double get xxxxxl => 48.w;
 
-  // —— Padding / Margin presets ————————————————————
-  static const double pagePadding = 24;
-  static const double cardPadding = 16;
-  static const double inputPadding = 14;
-  static const double sectionSpacing = 32;
-  static const double itemSpacing = 12;
+  // —— Padding presets ——————————————————
+  static double get pagePadding => 24.w;
+  static double get cardPadding => 16.w;
+  static double get inputPadding => 14.w;
+  static double get sectionSpacing => 32.h;
+  static double get itemSpacing => 12.h;
 
-  // —— Border Radius ————————————————————————————————
-  static const double radiusXs = 4;
-  static const double radiusSm = 8;
-  static const double radiusMd = 12;
-  static const double radiusLg = 16;
-  static const double radiusXl = 24;
-  static const double radiusFull = 999;
+  // —— Border Radius ————————————————————
+  static double get radiusXs => 4.r;
+  static double get radiusSm => 8.r;
+  static double get radiusMd => 12.r;
+  static double get radiusLg => 16.r;
+  static double get radiusXl => 24.r;
+  static double get radiusFull => 999.r;
 
-  // —— Icon Sizes ———————————————————————————————————
-  static const double iconXs = 14;
-  static const double iconSm = 18;
-  static const double iconMd = 24;
-  static const double iconLg = 32;
-  static const double iconXl = 48;
-  static const double iconXxl = 64;
+  // —— Icon Sizes ———————————————————————
+  static double get iconXs => 14.w;
+  static double get iconSm => 18.w;
+  static double get iconMd => 24.w;
+  static double get iconLg => 32.w;
+  static double get iconXl => 48.w;
+  static double get iconXxl => 64.w;
 
-  // —— Button ———————————————————————————————————————
-  static const double buttonHeight = 52;
-  static const double buttonHeightSm = 40;
-  static const double buttonHeightLg = 60;
+  // —— Button ———————————————————————————
+  static double get buttonHeight => 52.h;
+  static double get buttonHeightSm => 40.h;
+  static double get buttonHeightLg => 60.h;
 
-  // —— Input ————————————————————————————————————————
-  static const double inputHeight = 52;
+  // —— Input ————————————————————————————
+  static double get inputHeight => 52.h;
 
-  // —— AppBar ———————————————————————————————————————
-  static const double appBarHeight = 56;
+  // —— AppBar ———————————————————————————
+  static double get appBarHeight => 56.h;
 
-  // —— Avatar ———————————————————————————————————————
-  static const double avatarSm = 32;
-  static const double avatarMd = 48;
-  static const double avatarLg = 72;
-  static const double avatarXl = 96;
+  // —— Avatar ———————————————————————————
+  static double get avatarSm => 32.w;
+  static double get avatarMd => 48.w;
+  static double get avatarLg => 72.w;
+  static double get avatarXl => 96.w;
 
-  // —— Card ————————————————————————————————————————
-  static const double cardElevation = 2;
-  static const double cardElevationHigh = 8;
+  // —— Card —————————————————————————————
+  static double get cardElevation => 2;
+  static double get cardElevationHigh => 8;
 
-  // —— Divider —————————————————————————————————————
-  static const double dividerThickness = 1;
+  // —— Divider ——————————————————————————
+  static double get dividerThickness => 1;
 
-  // —— Bottom Nav ——————————————————————————————————
-  static const double bottomNavHeight = 64;
+  // —— Bottom Nav ———————————————————————
+  static double get bottomNavHeight => 64.h;
 
-  // —— Onboarding ——————————————————————————————————
-  static const double onboardingIllustrationSize = 220;
+  // —— Onboarding ———————————————————————
+  static double get onboardingIllustrationSize => 220.w;
 }

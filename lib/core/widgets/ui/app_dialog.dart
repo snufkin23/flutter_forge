@@ -125,13 +125,13 @@ class _ConfirmDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.radiusLg),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(AppSizes.xxl),
+        padding: EdgeInsets.all(AppSizes.xxl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             if (isDangerous)
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(bottom: AppSizes.md),
                 child: Icon(
                   Icons.warning_rounded,
@@ -140,14 +140,14 @@ class _ConfirmDialog extends StatelessWidget {
                 ),
               ),
             Text(title, style: AppTextStyles.titleLarge),
-            const SizedBox(height: AppSizes.sm),
+            SizedBox(height: AppSizes.sm),
             Text(
               message,
               style: AppTextStyles.bodyMedium.copyWith(
                 color: AppColors.lightSubtext,
               ),
             ),
-            const SizedBox(height: AppSizes.xxl),
+            SizedBox(height: AppSizes.xxl),
             Row(
               children: <Widget>[
                 Expanded(
@@ -157,7 +157,7 @@ class _ConfirmDialog extends StatelessWidget {
                     expanded: true,
                   ),
                 ),
-                const SizedBox(width: AppSizes.md),
+                SizedBox(width: AppSizes.md),
                 Expanded(
                   child: CustomButton.text(
                     label: confirmLabel,
@@ -195,20 +195,20 @@ class _InfoDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.radiusLg),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(AppSizes.xxl),
+        padding: EdgeInsets.all(AppSizes.xxl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             if (icon != null) ...<Widget>[
               icon!,
-              const SizedBox(height: AppSizes.lg),
+              SizedBox(height: AppSizes.lg),
             ],
             Text(
               title,
               style: AppTextStyles.titleLarge,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: AppSizes.sm),
+            SizedBox(height: AppSizes.sm),
             Text(
               message,
               style: AppTextStyles.bodyMedium.copyWith(
@@ -216,7 +216,7 @@ class _InfoDialog extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: AppSizes.xxl),
+            SizedBox(height: AppSizes.xxl),
             CustomButton.text(
               label: closeLabel,
               onPressed: () => Navigator.of(context).pop(),
@@ -287,7 +287,7 @@ class _PromptDialogState extends State<_PromptDialog> {
         borderRadius: BorderRadius.circular(AppSizes.radiusLg),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(AppSizes.xxl),
+        padding: EdgeInsets.all(AppSizes.xxl),
         child: Form(
           key: _formKey,
           child: Column(
@@ -296,7 +296,7 @@ class _PromptDialogState extends State<_PromptDialog> {
             children: <Widget>[
               Text(widget.title, style: AppTextStyles.titleLarge),
               if (widget.message != null) ...<Widget>[
-                const SizedBox(height: AppSizes.xs),
+                SizedBox(height: AppSizes.xs),
                 Text(
                   widget.message!,
                   style: AppTextStyles.bodyMedium.copyWith(
@@ -304,7 +304,7 @@ class _PromptDialogState extends State<_PromptDialog> {
                   ),
                 ),
               ],
-              const SizedBox(height: AppSizes.lg),
+              SizedBox(height: AppSizes.lg),
               TextFormField(
                 controller: _controller,
                 validator: widget.validator,
@@ -318,7 +318,7 @@ class _PromptDialogState extends State<_PromptDialog> {
                   hintText: widget.hintText,
                 ),
               ),
-              const SizedBox(height: AppSizes.xxl),
+              SizedBox(height: AppSizes.xxl),
               Row(
                 children: <Widget>[
                   Expanded(
@@ -328,7 +328,7 @@ class _PromptDialogState extends State<_PromptDialog> {
                       expanded: true,
                     ),
                   ),
-                  const SizedBox(width: AppSizes.md),
+                  SizedBox(width: AppSizes.md),
                   Expanded(
                     child: CustomButton.text(
                       label: widget.confirmLabel,
@@ -370,7 +370,7 @@ class _CustomDialog<T> extends StatelessWidget {
           maxWidth: maxWidth ?? 400,
         ),
         child: Padding(
-          padding: contentPadding ?? const EdgeInsets.all(AppSizes.xxl),
+          padding: contentPadding ?? EdgeInsets.all(AppSizes.xxl),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -388,7 +388,7 @@ class _CustomDialog<T> extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: AppSizes.lg),
+                SizedBox(height: AppSizes.lg),
               ],
               content,
             ],

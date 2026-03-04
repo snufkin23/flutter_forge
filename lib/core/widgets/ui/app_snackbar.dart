@@ -127,9 +127,9 @@ class AppSnackbar {
     SnackbarPosition position,
     SnackbarAlignment alignment,
   ) {
-    const double side = AppSizes.lg;
-    const double bottom = AppSizes.xxxl;
-    const double top = AppSizes.xxxxxl;
+    final double side = AppSizes.lg;
+    final double bottom = AppSizes.xxxl;
+    final double top = AppSizes.xxxxxl;
 
     final double leftMargin = alignment == SnackbarAlignment.right ? AppSizes.xxxxl : side;
     final double rightMargin = alignment == SnackbarAlignment.left ? AppSizes.xxxxl : side;
@@ -173,7 +173,7 @@ class _SnackbarContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSizes.lg,
         vertical: AppSizes.md,
       ),
@@ -192,7 +192,7 @@ class _SnackbarContent extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Icon(_icon, color: Colors.white, size: AppSizes.iconMd),
-          const SizedBox(width: AppSizes.sm),
+          SizedBox(width: AppSizes.sm),
           Flexible(
             child: Text(
               message,

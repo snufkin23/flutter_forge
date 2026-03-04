@@ -8,27 +8,17 @@ class CustomButton extends StatelessWidget {
     this.label,
     this.icon,
     this.suffixIcon,
-    bool? isLoading,
+    this.isLoading = false,
     this.bgColor,
     this.fgColor,
-    double? borderRadius,
-    EdgeInsets? padding,
+    this.borderRadius,
+    this.padding,
     this.width,
-    double? height,
-    bool? disabled,
-    bool? expanded,
+    this.height,
+    this.disabled = false,
+    this.expanded = false,
     super.key,
-  })  : isLoading = isLoading ?? false,
-        borderRadius = borderRadius ?? AppSizes.radiusMd,
-        padding = padding ??
-            const EdgeInsets.symmetric(
-              horizontal: AppSizes.xxl,
-              vertical: AppSizes.md,
-            ),
-        height = height ?? AppSizes.buttonHeight,
-        expanded = expanded ?? false,
-        disabled = disabled ?? false,
-        assert(
+  }) : assert(
           label != null || icon != null,
           'Either label or icon must be provided',
         );
@@ -39,15 +29,15 @@ class CustomButton extends StatelessWidget {
     String? label,
     Widget? icon,
     Widget? suffixIcon,
-    bool? isLoading,
+    bool isLoading,
     Color? bgColor,
     Color? fgColor,
     double? borderRadius,
     EdgeInsets? padding,
     double? width,
     double? height,
-    bool? disabled,
-    bool? expanded,
+    bool disabled,
+    bool expanded,
     Key? key,
   }) = CustomButton._;
 
@@ -55,15 +45,15 @@ class CustomButton extends StatelessWidget {
   const factory CustomButton.text({
     required VoidCallback onPressed,
     required String label,
-    bool? isLoading,
+    bool isLoading,
     Color? bgColor,
     Color? fgColor,
     double? borderRadius,
     EdgeInsets? padding,
     double? width,
     double? height,
-    bool? disabled,
-    bool? expanded,
+    bool disabled,
+    bool expanded,
     Key? key,
   }) = CustomButton._;
 
@@ -71,15 +61,15 @@ class CustomButton extends StatelessWidget {
   const factory CustomButton.icon({
     required VoidCallback onPressed,
     required Widget icon,
-    bool? isLoading,
+    bool isLoading,
     Color? bgColor,
     Color? fgColor,
     double? borderRadius,
     EdgeInsets? padding,
     double? width,
     double? height,
-    bool? disabled,
-    bool? expanded,
+    bool disabled,
+    bool expanded,
     Key? key,
   }) = CustomButton._;
 
@@ -89,15 +79,15 @@ class CustomButton extends StatelessWidget {
     required Widget icon,
     required String label,
     Widget? suffixIcon,
-    bool? isLoading,
+    bool isLoading,
     Color? bgColor,
     Color? fgColor,
     double? borderRadius,
     EdgeInsets? padding,
     double? width,
     double? height,
-    bool? disabled,
-    bool? expanded,
+    bool disabled,
+    bool expanded,
     Key? key,
   }) = CustomButton._;
 
@@ -108,10 +98,10 @@ class CustomButton extends StatelessWidget {
   final bool isLoading;
   final Color? bgColor;
   final Color? fgColor;
-  final double borderRadius;
-  final EdgeInsets padding;
+  final double? borderRadius;
+  final EdgeInsets? padding;
   final double? width;
-  final double height;
+  final double? height;
   final bool expanded;
   final bool disabled;
 
@@ -119,6 +109,15 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ← resolve AppSizes here — safe since ScreenUtil is initialized
+    final double effectiveBorderRadius = borderRadius ?? AppSizes.radiusMd;
+    final double effectiveHeight = height ?? AppSizes.buttonHeight;
+    final EdgeInsets effectivePadding = padding ??
+        EdgeInsets.symmetric(
+          horizontal: AppSizes.xxl,
+          vertical: AppSizes.md,
+        );
+
     final ThemeData theme = Theme.of(context);
 
     final Color effectiveBg = disabled
@@ -144,7 +143,7 @@ class CustomButton extends StatelessWidget {
             children: <Widget>[
               if (icon != null) ...<Widget>[
                 icon!,
-                if (label != null) const SizedBox(width: AppSizes.sm),
+                if (label != null) SizedBox(width: AppSizes.sm),
               ],
               if (label != null)
                 Flexible(
@@ -159,31 +158,29 @@ class CustomButton extends StatelessWidget {
                   ),
                 ),
               if (suffixIcon != null) ...<Widget>[
-                const SizedBox(width: AppSizes.sm),
+                SizedBox(width: AppSizes.sm),
                 suffixIcon!,
               ],
             ],
           );
 
-    final Material button = Material(
+    return Material(
       color: effectiveBg,
-      borderRadius: BorderRadius.circular(borderRadius),
+      borderRadius: BorderRadius.circular(effectiveBorderRadius),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: _isEnabled ? onPressed : null,
         splashColor: effectiveFg.withValues(alpha: 0.16),
         highlightColor: effectiveFg.withValues(alpha: 0.10),
         child: SizedBox(
-          height: height,
+          height: effectiveHeight,
           width: expanded ? double.infinity : width,
           child: Padding(
-            padding: padding,
+            padding: effectivePadding,
             child: Center(child: content),
           ),
         ),
       ),
     );
-
-    return button;
   }
 }

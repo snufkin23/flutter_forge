@@ -74,7 +74,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: actions != null
           ? <Widget>[
               ...actions!,
-              const SizedBox(width: AppSizes.sm),
+              SizedBox(width: AppSizes.sm),
             ]
           : null,
       shape: shape,
@@ -91,7 +91,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     // Show back button only if showLeading is true and can actually pop
     if (showLeading && canPop) {
       return Padding(
-        padding: const EdgeInsets.only(left: AppSizes.md),
+        padding: EdgeInsets.only(left: AppSizes.md),
         child: CircleAvatar(
           backgroundColor: AppColors.primary,
           radius: 18,

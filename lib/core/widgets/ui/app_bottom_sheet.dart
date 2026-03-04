@@ -94,7 +94,7 @@ class AppBottomSheet {
               children: <Widget>[
                 if (title != null) ...<Widget>[
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
+                    padding: EdgeInsets.fromLTRB(
                       AppSizes.xxl,
                       AppSizes.lg,
                       AppSizes.xxl,
@@ -111,7 +111,7 @@ class AppBottomSheet {
                       ],
                     ),
                   ),
-                  const Divider(height: AppSizes.lg),
+                  Divider(height: AppSizes.lg),
                 ],
                 Expanded(child: builder(scrollController)),
               ],
@@ -153,7 +153,7 @@ class _BottomSheetContainer extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: const BorderRadius.vertical(
+        borderRadius: BorderRadius.vertical(
           top: Radius.circular(AppSizes.radiusXl),
         ),
       ),
@@ -161,7 +161,7 @@ class _BottomSheetContainer extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           if (showDragHandle) ...<Widget>[
-            const SizedBox(height: AppSizes.md),
+            SizedBox(height: AppSizes.md),
             Container(
               width: 40,
               height: 4,
@@ -208,13 +208,13 @@ class _ListBottomSheet<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSizes.lg),
+      padding: EdgeInsets.symmetric(vertical: AppSizes.lg),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           if (title != null) ...<Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(
+              padding: EdgeInsets.symmetric(
                 horizontal: AppSizes.xxl,
                 vertical: AppSizes.sm,
               ),
@@ -273,20 +273,20 @@ class _ConfirmBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(AppSizes.xxl),
+      padding: EdgeInsets.all(AppSizes.xxl),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           if (icon != null) ...<Widget>[
             icon!,
-            const SizedBox(height: AppSizes.lg),
+            SizedBox(height: AppSizes.lg),
           ],
           Text(
             title,
             style: AppTextStyles.titleLarge,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: AppSizes.sm),
+          SizedBox(height: AppSizes.sm),
           Text(
             message,
             style: AppTextStyles.bodyMedium.copyWith(
@@ -294,14 +294,14 @@ class _ConfirmBottomSheet extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: AppSizes.xxl),
+          SizedBox(height: AppSizes.xxl),
           CustomButton.text(
             label: confirmLabel,
             bgColor: isDangerous ? AppColors.error : AppColors.primary,
             onPressed: () => Navigator.of(context).pop(true),
             expanded: true,
           ),
-          const SizedBox(height: AppSizes.md),
+          SizedBox(height: AppSizes.md),
           CustomOutlinedButton.text(
             label: cancelLabel,
             onPressed: () => Navigator.of(context).pop(false),
@@ -327,7 +327,7 @@ class _CustomBottomSheet<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? const EdgeInsets.all(AppSizes.xxl),
+      padding: padding ?? EdgeInsets.all(AppSizes.xxl),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -345,7 +345,7 @@ class _CustomBottomSheet<T> extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: AppSizes.lg),
+            SizedBox(height: AppSizes.lg),
           ],
           content,
         ],

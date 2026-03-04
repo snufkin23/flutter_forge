@@ -9,30 +9,19 @@ class CustomOutlinedButton extends StatelessWidget {
     this.label,
     this.icon,
     this.suffixIcon,
-    bool? isLoading,
+    this.isLoading = false,
     this.borderColor,
     this.fgColor,
     this.fillColor,
-    double? borderRadius,
-    double? borderWidth,
-    EdgeInsets? padding,
+    this.borderRadius,
+    this.borderWidth,
+    this.padding,
     this.width,
-    double? height,
-    bool? disabled,
-    bool? expanded,
+    this.height,
+    this.disabled = false,
+    this.expanded = false,
     super.key,
-  })  : isLoading = isLoading ?? false,
-        borderRadius = borderRadius ?? AppSizes.radiusMd,
-        borderWidth = borderWidth ?? 1.5,
-        padding = padding ??
-            const EdgeInsets.symmetric(
-              horizontal: AppSizes.xxl,
-              vertical: AppSizes.md,
-            ),
-        height = height ?? AppSizes.buttonHeight,
-        expanded = expanded ?? false,
-        disabled = disabled ?? false,
-        assert(
+  }) : assert(
           label != null || icon != null,
           'Either label or icon must be provided',
         );
@@ -43,7 +32,7 @@ class CustomOutlinedButton extends StatelessWidget {
     String? label,
     Widget? icon,
     Widget? suffixIcon,
-    bool? isLoading,
+    bool isLoading,
     Color? borderColor,
     Color? fgColor,
     Color? fillColor,
@@ -52,8 +41,8 @@ class CustomOutlinedButton extends StatelessWidget {
     EdgeInsets? padding,
     double? width,
     double? height,
-    bool? disabled,
-    bool? expanded,
+    bool disabled,
+    bool expanded,
     Key? key,
   }) = CustomOutlinedButton._;
 
@@ -61,7 +50,7 @@ class CustomOutlinedButton extends StatelessWidget {
   const factory CustomOutlinedButton.text({
     required VoidCallback onPressed,
     required String label,
-    bool? isLoading,
+    bool isLoading,
     Color? borderColor,
     Color? fgColor,
     Color? fillColor,
@@ -70,8 +59,8 @@ class CustomOutlinedButton extends StatelessWidget {
     EdgeInsets? padding,
     double? width,
     double? height,
-    bool? disabled,
-    bool? expanded,
+    bool disabled,
+    bool expanded,
     Key? key,
   }) = CustomOutlinedButton._;
 
@@ -79,7 +68,7 @@ class CustomOutlinedButton extends StatelessWidget {
   const factory CustomOutlinedButton.icon({
     required VoidCallback onPressed,
     required Widget icon,
-    bool? isLoading,
+    bool isLoading,
     Color? borderColor,
     Color? fgColor,
     Color? fillColor,
@@ -88,8 +77,8 @@ class CustomOutlinedButton extends StatelessWidget {
     EdgeInsets? padding,
     double? width,
     double? height,
-    bool? disabled,
-    bool? expanded,
+    bool disabled,
+    bool expanded,
     Key? key,
   }) = CustomOutlinedButton._;
 
@@ -99,7 +88,7 @@ class CustomOutlinedButton extends StatelessWidget {
     required Widget icon,
     required String label,
     Widget? suffixIcon,
-    bool? isLoading,
+    bool isLoading,
     Color? borderColor,
     Color? fgColor,
     Color? fillColor,
@@ -108,8 +97,8 @@ class CustomOutlinedButton extends StatelessWidget {
     EdgeInsets? padding,
     double? width,
     double? height,
-    bool? disabled,
-    bool? expanded,
+    bool disabled,
+    bool expanded,
     Key? key,
   }) = CustomOutlinedButton._;
 
@@ -121,11 +110,11 @@ class CustomOutlinedButton extends StatelessWidget {
   final Color? borderColor;
   final Color? fgColor;
   final Color? fillColor;
-  final double borderRadius;
-  final double borderWidth;
-  final EdgeInsets padding;
+  final double? borderRadius;
+  final double? borderWidth;
+  final EdgeInsets? padding;
   final double? width;
-  final double height;
+  final double? height;
   final bool expanded;
   final bool disabled;
 
@@ -133,6 +122,16 @@ class CustomOutlinedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ← resolve AppSizes here — safe since ScreenUtil is initialized
+    final double effectiveBorderRadius = borderRadius ?? AppSizes.radiusMd;
+    final double effectiveBorderWidth = borderWidth ?? 1.5;
+    final double effectiveHeight = height ?? AppSizes.buttonHeight;
+    final EdgeInsets effectivePadding = padding ??
+        EdgeInsets.symmetric(
+          horizontal: AppSizes.xxl,
+          vertical: AppSizes.md,
+        );
+
     final ThemeData theme = Theme.of(context);
 
     final Color effectiveBorderColor = disabled
@@ -160,7 +159,7 @@ class CustomOutlinedButton extends StatelessWidget {
             children: <Widget>[
               if (icon != null) ...<Widget>[
                 icon!,
-                if (label != null) const SizedBox(width: AppSizes.sm),
+                if (label != null) SizedBox(width: AppSizes.sm),
               ],
               if (label != null)
                 Flexible(
@@ -175,7 +174,7 @@ class CustomOutlinedButton extends StatelessWidget {
                   ),
                 ),
               if (suffixIcon != null) ...<Widget>[
-                const SizedBox(width: AppSizes.sm),
+                SizedBox(width: AppSizes.sm),
                 suffixIcon!,
               ],
             ],
@@ -185,10 +184,10 @@ class CustomOutlinedButton extends StatelessWidget {
       color: effectiveFill,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius),
+        borderRadius: BorderRadius.circular(effectiveBorderRadius),
         side: BorderSide(
           color: effectiveBorderColor,
-          width: borderWidth,
+          width: effectiveBorderWidth,
         ),
       ),
       child: InkWell(
@@ -196,10 +195,10 @@ class CustomOutlinedButton extends StatelessWidget {
         splashColor: effectiveFg.withValues(alpha: 0.08),
         highlightColor: effectiveFg.withValues(alpha: 0.06),
         child: SizedBox(
-          height: height,
+          height: effectiveHeight,
           width: expanded ? double.infinity : width,
           child: Padding(
-            padding: padding,
+            padding: effectivePadding,
             child: Center(child: content),
           ),
         ),

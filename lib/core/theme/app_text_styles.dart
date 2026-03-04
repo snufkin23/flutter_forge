@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil_plus/flutter_screenutil_plus.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 
 abstract class AppTextStyles {
-  // Base DM Sans style — all styles derive from this
-
   static TextStyle _dmSans({
     required double fontSize,
     required FontWeight fontWeight,
@@ -14,7 +13,7 @@ abstract class AppTextStyles {
     Color? color,
   }) =>
       GoogleFonts.dmSans(
-        fontSize: fontSize,
+        fontSize: fontSize.sp,
         fontWeight: fontWeight,
         letterSpacing: letterSpacing,
         height: height,

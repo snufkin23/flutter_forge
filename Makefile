@@ -5,7 +5,7 @@
 # Code generation + localization
 gen:
 	dart run build_runner build --delete-conflicting-outputs
-	flutter pub run intl_utils:generate
+	dart run intl_utils:generate
 
 watch:
 	dart run build_runner watch --delete-conflicting-outputs

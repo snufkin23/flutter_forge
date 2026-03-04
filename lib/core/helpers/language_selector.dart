@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_forge/core/app/presentation/blocs/app_theme/app_theme_cubit.dart';
-import 'package:flutter_forge/core/constants/constants.dart';
+import 'package:flutter_forge/core/app/presentation/blocs/app_locale/app_locale_cubit.dart';
+import 'package:flutter_forge/core/constants/sizes.dart';
 import 'package:flutter_forge/core/theme/app_colors.dart';
 import 'package:flutter_forge/core/theme/app_text_styles.dart';
 
-class ThemeSelector extends StatelessWidget {
-  const ThemeSelector({super.key});
+class LanguageSelector extends StatelessWidget {
+  const LanguageSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<AppThemeCubit, ThemeMode, ThemeMode>(
-      selector: (ThemeMode mode) => mode,
-      builder: (BuildContext context, ThemeMode current) {
+    return BlocSelector<AppLocaleCubit, AppLocale, AppLocale>(
+      selector: (AppLocale locale) => locale,
+      builder: (BuildContext context, AppLocale current) {
         return Container(
           padding: EdgeInsets.all(AppSizes.xs),
           decoration: BoxDecoration(
@@ -22,10 +22,10 @@ class ThemeSelector extends StatelessWidget {
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: ThemeMode.values
+            children: AppLocale.values
                 .map(
-                  (ThemeMode mode) => _ThemeOption(
-                    mode: mode,
+                  (AppLocale lang) => _LangOptionWidget(
+                    lang: lang,
                     current: current,
                   ),
                 )
@@ -37,36 +37,25 @@ class ThemeSelector extends StatelessWidget {
   }
 }
 
-class _ThemeOption extends StatelessWidget {
-  const _ThemeOption({
-    required this.mode,
+class _LangOptionWidget extends StatelessWidget {
+  const _LangOptionWidget({
+    required this.lang,
     required this.current,
   });
-  final ThemeMode mode;
-  final ThemeMode current;
 
-  bool get _isSelected => current == mode;
+  final AppLocale lang;
+  final AppLocale current;
 
-  IconData get _icon => switch (mode) {
-        ThemeMode.light => Icons.light_mode_rounded,
-        ThemeMode.dark => Icons.dark_mode_rounded,
-        ThemeMode.system => Icons.brightness_auto_rounded,
-      };
-
-  String get _label => switch (mode) {
-        ThemeMode.light => AppConstants.lightMode,
-        ThemeMode.dark => AppConstants.darkMode,
-        ThemeMode.system => AppConstants.systemMode,
-      };
+  bool get _isSelected => current == lang;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
     return Tooltip(
-      message: _label,
+      message: lang.displayName,
       child: GestureDetector(
-        onTap: () => context.read<AppThemeCubit>().setMode(mode),
+        onTap: () => context.read<AppLocaleCubit>().setLocale(lang),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeInOut,
@@ -91,14 +80,13 @@ class _ThemeOption extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Icon(
-                _icon,
-                size: AppSizes.iconSm,
-                color: _isSelected ? Colors.white : theme.colorScheme.onSurface,
+              Text(
+                lang.flag,
+                style: const TextStyle(fontSize: 16),
               ),
               SizedBox(width: AppSizes.xs),
               Text(
-                _label,
+                lang.short,
                 style: AppTextStyles.labelSmall.copyWith(
                   color: _isSelected ? Colors.white : theme.colorScheme.onSurface,
                   fontWeight: _isSelected ? FontWeight.w700 : FontWeight.w500,

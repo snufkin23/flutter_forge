@@ -11,4 +11,5 @@ abstract class StorageKeys {
   static const String rememberMe = 'remember_me';
 
   static const String themeMode = 'theme_mode';
+  static const String locale = 'app_locale';
 }

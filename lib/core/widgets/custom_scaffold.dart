@@ -104,7 +104,7 @@ class CustomScaffold extends StatelessWidget {
     Widget content = usePadding
         ? Padding(
             padding: padding ??
-                const EdgeInsets.symmetric(
+                EdgeInsets.symmetric(
                   horizontal: AppSizes.pagePadding,
                   vertical: AppSizes.sm,
                 ),
