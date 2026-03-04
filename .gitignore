@@ -75,3 +75,7 @@ lib/**/injection.config.dart
 
 # Localization / intl_utils / flutter_intl
 lib/localization/generated/**
+
+# environment 
+.env
+.env*
