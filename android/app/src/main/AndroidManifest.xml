@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="flutter_forge"
+        android:label="Flutter Forge"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
