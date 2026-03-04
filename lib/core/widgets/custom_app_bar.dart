@@ -49,8 +49,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final canPop = context.router.canPop();
+    final ThemeData theme = Theme.of(context);
+    final bool canPop = context.router.canPop();
 
     return AppBar(
       elevation: elevation,
@@ -72,9 +72,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: _buildTitle(context),
       ),
       actions: actions != null
-          ? [
+          ? <Widget>[
               ...actions!,
-              SizedBox(width: AppSizes.sm),
+              const SizedBox(width: AppSizes.sm),
             ]
           : null,
       shape: shape,
@@ -84,12 +84,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   Widget? _buildLeading(BuildContext context, bool canPop) {
     // Custom leading takes priority
-    if (leading != null) return leading;
+    if (leading != null) {
+      return leading;
+    }
 
     // Show back button only if showLeading is true and can actually pop
     if (showLeading && canPop) {
       return Padding(
-        padding: EdgeInsets.only(left: AppSizes.md),
+        padding: const EdgeInsets.only(left: AppSizes.md),
         child: CircleAvatar(
           backgroundColor: AppColors.primary,
           radius: 18,
@@ -115,7 +117,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   Widget _buildTitle(BuildContext context) {
     // Custom widget title
-    if (titleWidget != null) return titleWidget!;
+    if (titleWidget != null) {
+      return titleWidget!;
+    }
 
     // Text title
     if (title != null && title!.isNotEmpty) {

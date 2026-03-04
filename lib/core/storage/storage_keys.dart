@@ -9,4 +9,6 @@ abstract class StorageKeys {
   static const String accessToken = '__ACCESS_TOKEN__';
   static const String refreshToken = '__REFRESH_TOKEN__';
   static const String rememberMe = 'remember_me';
+
+  static const String themeMode = 'theme_mode';
 }

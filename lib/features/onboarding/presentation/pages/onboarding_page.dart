@@ -11,18 +11,18 @@ class OnboardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<OnboardingCubit, bool>(
-      listener: (context, completed) {
+      listener: (BuildContext context, bool completed) {
         if (completed) {
           context.router.replace(const LoginRoute());
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Onboarding')),
+        appBar: AppBar(
+          title: const Text('Onboarding'),
+        ),
         body: Center(
           child: ElevatedButton(
-            onPressed: () {
-              context.read<OnboardingCubit>().completeOnboarding();
-            },
+            onPressed: () => context.read<OnboardingCubit>().completeOnboarding(),
             child: const Text('Finish Onboarding'),
           ),
         ),

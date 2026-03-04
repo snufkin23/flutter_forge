@@ -118,7 +118,8 @@ class CustomTextFormField extends StatefulWidget {
         onChanged: onChanged,
         keyboardType: TextInputType.number,
         maxLength: maxLength,
-        inputFormatters: inputFormatters ?? [FilteringTextInputFormatter.digitsOnly],
+        inputFormatters:
+            inputFormatters ?? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
         enabled: enabled ?? true,
       );
 
@@ -167,7 +168,7 @@ class CustomTextFormField extends StatefulWidget {
         onChanged: onChanged,
         keyboardType: TextInputType.phone,
         prefixIcon: Icons.phone_outlined,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
         enabled: enabled ?? true,
       );
 
@@ -256,14 +257,18 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     }
 
     // Custom suffix widget
-    if (widget.suffixWidget != null) return widget.suffixWidget;
+    if (widget.suffixWidget != null) {
+      return widget.suffixWidget;
+    }
 
     // Custom suffix icon
     return widget.suffixIcon;
   }
 
   Widget? get _prefixIcon {
-    if (widget.prefixWidget != null) return widget.prefixWidget;
+    if (widget.prefixWidget != null) {
+      return widget.prefixWidget;
+    }
     if (widget.prefixIcon != null) {
       return Icon(
         widget.prefixIcon,

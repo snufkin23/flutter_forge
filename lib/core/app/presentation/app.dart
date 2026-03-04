@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_forge/core/app/presentation/blocs/app_theme/app_theme_cubit.dart';
 import 'package:flutter_forge/core/di/injection.dart';
 import 'package:flutter_forge/core/router/app_router.dart';
 import 'package:flutter_forge/core/router/app_router.gr.dart';
 import 'package:flutter_forge/core/theme/theme.dart';
 import 'package:flutter_forge/localization/localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:nested/nested.dart';
 
-import 'blocs/app_startup_cubit.dart';
+import 'blocs/app_startup/app_startup_cubit.dart';
 import 'global_app_provider.dart';
 
 class App extends StatefulWidget {
@@ -18,13 +20,13 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final _appRouter = getIt<AppRouter>();
+  final AppRouter _appRouter = getIt<AppRouter>();
 
   @override
   Widget build(BuildContext context) {
     return GlobalAppProvider(
       child: MultiBlocListener(
-        listeners: [
+        listeners: <SingleChildWidget>[
           BlocListener<AppStartupCubit, AppStartupState>(
             listener: (_, AppStartupState state) {
               state.when(
@@ -35,18 +37,22 @@ class _AppState extends State<App> {
             },
           ),
         ],
-        child: MaterialApp.router(
-          routerConfig: _appRouter.config(),
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          themeMode: ThemeMode.system,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.delegate.supportedLocales,
+        child: BlocBuilder<AppThemeCubit, ThemeMode>(
+          builder: (_, ThemeMode themeMode) {
+            return MaterialApp.router(
+              routerConfig: _appRouter.config(),
+              theme: AppTheme.light,
+              darkTheme: AppTheme.dark,
+              themeMode: themeMode,
+              localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.delegate.supportedLocales,
+            );
+          },
         ),
       ),
     );

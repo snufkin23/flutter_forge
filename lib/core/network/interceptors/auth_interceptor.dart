@@ -4,8 +4,8 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class AuthInterceptor extends Interceptor {
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    final token = await _getToken();
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    final String? token = await _getToken();
 
     if (token != null) {
       options.headers['Authorization'] = 'Bearer $token';
@@ -15,16 +15,16 @@ class AuthInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
       try {
-        final newToken = await _refreshToken();
+        final String newToken = await _refreshToken();
 
         // Retry original request with new token
-        final opts = err.requestOptions;
+        final RequestOptions opts = err.requestOptions;
         opts.headers['Authorization'] = 'Bearer $newToken';
 
-        final response = await Dio().fetch(opts);
+        final Response<dynamic> response = await Dio().fetch<dynamic>(opts);
         return handler.resolve(response);
       } catch (_) {
         // Refresh failed — force logout

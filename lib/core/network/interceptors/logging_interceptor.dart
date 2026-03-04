@@ -4,9 +4,8 @@ import 'package:logger/logger.dart';
 
 @lazySingleton
 class LoggingInterceptor extends Interceptor {
-  final Logger _logger;
-
   LoggingInterceptor(this._logger);
+  final Logger _logger;
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -21,7 +20,7 @@ class LoggingInterceptor extends Interceptor {
   }
 
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
+  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
     _logger.d(
       '← RESPONSE\n'
       '  Status  : ${response.statusCode}\n'

@@ -119,7 +119,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
 
     final Color effectiveBg = disabled
         ? theme.colorScheme.onSurface.withValues(alpha: 0.12)
@@ -129,7 +129,7 @@ class CustomButton extends StatelessWidget {
         ? theme.colorScheme.onSurface.withValues(alpha: 0.38)
         : (fgColor ?? theme.colorScheme.onPrimary);
 
-    Widget content = isLoading
+    final Widget content = isLoading
         ? SizedBox(
             width: AppSizes.iconSm,
             height: AppSizes.iconSm,
@@ -141,8 +141,8 @@ class CustomButton extends StatelessWidget {
         : Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (icon != null) ...[
+            children: <Widget>[
+              if (icon != null) ...<Widget>[
                 icon!,
                 if (label != null) const SizedBox(width: AppSizes.sm),
               ],
@@ -158,14 +158,14 @@ class CustomButton extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (suffixIcon != null) ...[
+              if (suffixIcon != null) ...<Widget>[
                 const SizedBox(width: AppSizes.sm),
                 suffixIcon!,
               ],
             ],
           );
 
-    final button = Material(
+    final Material button = Material(
       color: effectiveBg,
       borderRadius: BorderRadius.circular(borderRadius),
       clipBehavior: Clip.antiAlias,

@@ -3,12 +3,11 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class SecureStorageService {
-  final FlutterSecureStorage _storage;
-
   SecureStorageService()
-    : _storage = const FlutterSecureStorage(
-        iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
-      );
+      : _storage = const FlutterSecureStorage(
+          iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
+        );
+  final FlutterSecureStorage _storage;
 
   Future<void> write({required String key, required String value}) async =>
       _storage.write(key: key, value: value);

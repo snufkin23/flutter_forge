@@ -17,10 +17,10 @@ part 'app_startup_state.dart';
 ///
 @injectable
 class AppStartupCubit extends Cubit<AppStartupState> {
-  final LocalStorage _storage;
   AppStartupCubit(this._storage) : super(const _Initial()) {
     _init();
   }
+  final LocalStorage _storage;
 
   /// Initializes the app: checks session and decides first screen
   ///

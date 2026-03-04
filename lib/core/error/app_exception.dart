@@ -31,13 +31,13 @@ abstract class AppException with _$AppException implements Exception {
 
 extension AppExceptionX on AppException {
   String get readableMessage => when(
-    cache: (message) => message,
-    validation: (message, _) => message,
-    unauthenticated: (message) => message,
-    navigation: (message) => message,
-    permission: (message) => message,
-    unknown: (message) => message,
-  );
+        cache: (String message) => message,
+        validation: (String message, _) => message,
+        unauthenticated: (String message) => message,
+        navigation: (String message) => message,
+        permission: (String message) => message,
+        unknown: (String message) => message,
+      );
 
   bool get isCache => this is CacheException;
   bool get isValidation => this is ValidationException;

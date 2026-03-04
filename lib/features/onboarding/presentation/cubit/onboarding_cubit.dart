@@ -5,12 +5,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class OnboardingCubit extends Cubit<bool> {
+  OnboardingCubit(this._storage) : super(false);
   final LocalStorage _storage;
 
-  OnboardingCubit(this._storage) : super(false);
-
   Future<void> checkStatus() async {
-    final completed = _storage.get<bool>(AppConstants.onboardingKey) ?? false;
+    final bool completed = _storage.get<bool>(AppConstants.onboardingKey) ?? false;
     emit(completed);
   }
 

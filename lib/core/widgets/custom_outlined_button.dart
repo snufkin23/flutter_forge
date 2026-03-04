@@ -133,7 +133,7 @@ class CustomOutlinedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
 
     final Color effectiveBorderColor = disabled
         ? theme.colorScheme.onSurface.withValues(alpha: 0.12)
@@ -145,7 +145,7 @@ class CustomOutlinedButton extends StatelessWidget {
 
     final Color effectiveFill = fillColor ?? Colors.transparent;
 
-    Widget content = isLoading
+    final Widget content = isLoading
         ? SizedBox(
             width: AppSizes.iconSm,
             height: AppSizes.iconSm,
@@ -157,8 +157,8 @@ class CustomOutlinedButton extends StatelessWidget {
         : Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (icon != null) ...[
+            children: <Widget>[
+              if (icon != null) ...<Widget>[
                 icon!,
                 if (label != null) const SizedBox(width: AppSizes.sm),
               ],
@@ -174,7 +174,7 @@ class CustomOutlinedButton extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (suffixIcon != null) ...[
+              if (suffixIcon != null) ...<Widget>[
                 const SizedBox(width: AppSizes.sm),
                 suffixIcon!,
               ],
@@ -183,7 +183,6 @@ class CustomOutlinedButton extends StatelessWidget {
 
     return Material(
       color: effectiveFill,
-      borderRadius: BorderRadius.circular(borderRadius),
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(borderRadius),

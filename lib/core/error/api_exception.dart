@@ -35,14 +35,14 @@ abstract class ApiException with _$ApiException implements Exception {
 
 extension ApiExceptionX on ApiException {
   String get readableMessage => when(
-    network: (message, _) => message,
-    server: (message, _) => message,
-    unauthorized: (message) => message,
-    forbidden: (message) => message,
-    notFound: (message) => message,
-    timeout: (message) => message,
-    unknown: (message) => message,
-  );
+        network: (String message, _) => message,
+        server: (String message, _) => message,
+        unauthorized: (String message) => message,
+        forbidden: (String message) => message,
+        notFound: (String message) => message,
+        timeout: (String message) => message,
+        unknown: (String message) => message,
+      );
 
   bool get isUnauthorized => this is UnauthorizedException;
   bool get isNetwork => this is NetworkException;

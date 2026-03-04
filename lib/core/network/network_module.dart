@@ -14,23 +14,26 @@ import 'interceptors/logging_interceptor.dart';
 abstract class NetworkModule {
   @lazySingleton
   Logger logger() => Logger(
-    printer: PrettyPrinter(
-      methodCount: 0,
-      lineLength: 80,
-      dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart,
-    ),
-    level: kDebugMode ? Level.trace : Level.off,
-  );
+        printer: PrettyPrinter(
+          methodCount: 0,
+          lineLength: 80,
+          dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart,
+        ),
+        level: kDebugMode ? Level.trace : Level.off,
+      );
 
   @lazySingleton
   BaseOptions baseOptions() => BaseOptions(
-    baseUrl: Env.baseUrl,
-    connectTimeout: const Duration(seconds: 30),
-    receiveTimeout: const Duration(seconds: 30),
-    sendTimeout: const Duration(seconds: 30),
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-    validateStatus: (status) => status != null && status < 500,
-  );
+        baseUrl: Env.baseUrl,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+        sendTimeout: const Duration(seconds: 30),
+        headers: <String, dynamic>{
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        validateStatus: (int? status) => status != null && status < 500,
+      );
 
   @lazySingleton
   Dio dio(
@@ -38,11 +41,12 @@ abstract class NetworkModule {
     AuthInterceptor auth,
     LoggingInterceptor logging,
     ErrorInterceptor error,
-  ) => Dio(options)..interceptors.addAll([auth, logging, error]);
+  ) =>
+      Dio(options)..interceptors.addAll(<Interceptor>[auth, logging, error]);
 
   @lazySingleton
   Client ferryClient(Dio dio) {
-    final dioLink = DioLink(Env.graphqlUrl, client: dio);
+    final DioLink dioLink = DioLink(Env.graphqlUrl, client: dio);
     return Client(link: dioLink, cache: Cache());
   }
 }

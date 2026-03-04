@@ -5,13 +5,13 @@ import 'storage_keys.dart';
 
 @lazySingleton
 class LocalStorage {
-  late Box _appBox;
+  late Box<dynamic> _appBox;
 
-  Box get appBox => _appBox;
+  Box<dynamic> get appBox => _appBox;
   @preResolve
   @factoryMethod
   static Future<LocalStorage> init() async {
-    final service = LocalStorage();
+    final LocalStorage service = LocalStorage();
     await service._init();
     return service;
   }
