@@ -1,6 +1,6 @@
 ## What's Changed
 
-**Version:** 1.0.0 | **Build:** 4
+**Version:** 1.0.0 | **Build:** 5
 
 ### ♻️ Refactors
 - refactor: update and adds contributing md
@@ -13,6 +13,7 @@
 - chore: remove .env from tracking
 
 ### ⚙️ CI
+- ci: accept android sdk licenses
 - ci: update workflow files
 - ci: add github actions workflows
 
