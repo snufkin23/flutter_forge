@@ -1,6 +1,9 @@
 ## What's Changed
 
-**Version:** 1.0.0 | **Build:** 6
+**Version:** 1.0.0 | **Build:** 7
+
+### 🐛 Bug Fixes
+- fix: remove explicit ndkVersion to fix CI build
 
 ### ♻️ Refactors
 - refactor: update and adds contributing md
