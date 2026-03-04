@@ -43,13 +43,14 @@ features/
 | DI | `get_it` + `injectable` |
 | Routing | `auto_route` |
 | State | `flutter_bloc` (Cubit) |
-| Network | `dio` |
+| Network (REST) | `dio` |
+| Network (GraphQL) | `ferry` + `gql_dio_link` |
 | Data classes | `freezed` + `json_serializable` |
 | FP | `fpdart` |
 | Local storage | `hive_ce` + `flutter_secure_storage` |
 | Localization | `flutter_intl` |
 | Assets | `flutter_gen` |
-| Responsive | `flutter_screenutil` |
+| Responsive | `flutter_screenutil_plus` |
 | Fonts | `google_fonts` (DM Sans) |
 | Env | `envied` |
 
@@ -60,23 +61,26 @@ features/
 ```
 lib/
 ├── core/
-│   ├── app/          # AppCubit, AppThemeCubit, AppLocaleCubit , Global App Provider
-│   ├── di/             # get_it + injectable setup
-│   ├── env/            # envied config (dev/prod)
-│   ├── error/          # AppException
-│   ├── network/        # Dio client, interceptors, ApiException
-│   ├── router/         # auto_route config + guards
-│   ├── storage/        # LocalStorage (Hive), SecureStorage
-│   ├── theme/          # AppTheme, AppColors, AppTextStyles, AppSizes
-│   ├── typedefs/       # AsyncAppResponse, ApiResponse, UnitResponse etc.
-│   ├── utils/          # extensions
-│   └── widgets/        # shared widgets
+│   ├── app/          # AppCubit, AppThemeCubit, AppLocaleCubit, GlobalAppProvider
+│   ├── di/           # get_it + injectable setup
+│   ├── env/          # envied config
+│   ├── error/        # AppException
+│   ├── network/      # Dio client, GQLClient, interceptors, ApiException
+│   ├── router/       # auto_route config + guards
+│   ├── storage/      # LocalStorage (Hive), SecureStorage
+│   ├── theme/        # AppTheme, AppColors, AppTextStyles, AppSizes
+│   ├── typedefs/     # AsyncAppResponse, ApiResponse, UnitResponse etc.
+│   ├── utils/        # extensions
+│   └── widgets/      # shared widgets
 ├── features/
 │   ├── onboarding/
 │   ├── auth/
 │   └── home/
+├── graphql/
+│   ├── schema.graphql        # your GraphQL schema
+│   └── queries/              # .graphql operation files
 ├── localization/
-│   └── arb/            # intl_en.arb, intl_ne.arb
+│   └── arb/                  # intl_en.arb, intl_ne.arb
 └── main.dart
 ```
 
@@ -87,10 +91,10 @@ lib/
 Light and dark themes both supported, driven by `AppThemeCubit`.
 
 ```dart
-// Toggle from anywhere
+// Set from anywhere
 context.read<AppThemeCubit>().setMode(ThemeMode.dark);
 
-// Use the ThemeSelector widget
+// Or use the widget
 ThemeSelector()
 ```
 
@@ -116,7 +120,7 @@ fr('Français', '🇫🇷', 'FR'),
 ```
 That's it — no other changes needed.
 
-**Usage anywhere (no context needed):**
+**Usage anywhere:**
 ```dart
 import 'package:flutter_forge/localization/localization.dart';
 
@@ -162,11 +166,8 @@ getIt<AuthRepository>()
 Auto Route with typed routes and guards.
 
 ```dart
-// Navigate
 context.router.push(const HomeRoute());
 context.router.replace(const LoginRoute());
-
-// With params
 context.router.push(ProfileRoute(userId: '123'));
 ```
 
@@ -177,7 +178,7 @@ context.router.push(ProfileRoute(userId: '123'));
 
 ---
 
-## 🌐 Network
+## 🌐 Network — REST
 
 Dio client with 4 interceptors wired by default:
 
@@ -188,17 +189,51 @@ Dio client with 4 interceptors wired by default:
 | `ErrorInterceptor` | Maps Dio errors → `ApiException` |
 | `LoggingInterceptor` | Logs requests/responses |
 
-**Typedefs for clean return types:**
-
+**Typedefs:**
 ```dart
-// datasource
 ApiResponse<UserModel>       // Future<Either<ApiException, T>>
-
-// repository / usecase
 AsyncAppResponse<UserEntity> // Future<Either<AppException, T>>
 UnitResponse                 // Future<Either<AppException, Unit>>
 SyncResponse<bool>           // Either<AppException, T>
 ```
+
+---
+
+## 📡 Network — GraphQL
+
+Powered by `ferry` + `gql_dio_link`. Client lives at `lib/core/network/graphql_client.dart`.
+
+```dart
+// One-shot query / mutation
+final response = await gqlClient.run(GMyQueryReq());
+
+// Reactive stream (subscriptions / cache)
+gqlClient.watch(GMyQueryReq()).listen((res) { ... });
+
+// Manual cache write
+gqlClient.writeToCache(request, data);
+```
+
+**Schema and operations live in `lib/graphql/`:**
+```
+lib/graphql/
+├── schema.graphql         # paste your schema here
+└── queries/
+    └── auth.graphql       # your operations here
+```
+
+**After adding/editing `.graphql` files:**
+```bash
+make gen
+```
+
+Ferry generates typed request/response classes automatically from your operations.
+
+**`build.yaml` handles:**
+- `ferry_generator` — typed GraphQL classes from schema + operations
+- `serializer_builder` — serializers with `DateTime` support
+- `json_serializable` — explicit `toJson` on all models
+- `auto_route_generator` — scoped to `**_page.dart` files only
 
 ---
 
@@ -207,10 +242,10 @@ SyncResponse<bool>           // Either<AppException, T>
 Uses `envied` for compile-time, obfuscated env vars.
 
 ```
-.env   → BASE_URL=http://localhost:8080/api
+.env → BASE_URL=http://localhost:8080/api
 ```
 
-> ⚠️ Never commit `.env.*` files — they are gitignored.
+> ⚠️ Never commit `.env` — it is gitignored.
 
 Run `make gen` after editing env files.
 
@@ -236,7 +271,7 @@ Config lives in `flutter_launcher_icons.yaml`.
 make icons
 ```
 
-Replace these files with your own before running:
+Replace before running:
 ```
 assets/icons/app_icon.png
 assets/icons/app_icon_foreground.png  # Android adaptive
@@ -247,22 +282,20 @@ assets/icons/app_icon_foreground.png  # Android adaptive
 ## 🛠 Makefile Commands
 
 ```bash
-make gen          # run build_runner (code generation)
-make watch        # watch mode for code generation
-make splash       # generate native splash
-make icons        # generate launcher icons
-make clean        # flutter clean + pub get
-make format       # dart format
-make lint         # flutter analyze
-make test         # flutter test
-make setup        # clean + splash + icons + gen (fresh clone)
+make gen      # code generation (build_runner)
+make watch    # watch mode for code generation
+make splash   # generate native splash
+make icons    # generate launcher icons
+make clean    # flutter clean + pub get
+make format   # dart format
+make lint     # flutter analyze
+make test     # flutter test
+make setup    # clean + splash + icons + gen (fresh clone)
 ```
 
 ---
 
 ## 🧩 Shared Widgets
-
-All in `core/widgets/` — import via barrel:
 
 ```dart
 import 'package:flutter_forge/core/widgets/widgets.dart';
@@ -278,13 +311,13 @@ import 'package:flutter_forge/core/widgets/widgets.dart';
 | `ThemeSelector` | Light / Dark / System pill selector |
 | `LanguageSelector` | EN / NP pill selector |
 
-**Context extensions — no boilerplate:**
+**Context extensions:**
 ```dart
 context.showSuccessSnackbar('Saved!')
 context.showErrorSnackbar('Failed')
 context.showConfirmDialog(title: 'Delete?', message: '...')
 context.showPromptDialog(title: 'Enter name')
-context.showCustomBottomSheet(child: MyWidget())
+context.showCustomBottomSheet<void>(child: MyWidget())
 context.showDraggableBottomSheet(builder: (c) => MyList(c))
 ```
 
@@ -295,10 +328,12 @@ context.showDraggableBottomSheet(builder: (c) => MyList(c))
 1. Clone the repo
 2. Replace `flutter_forge` with your app name in:
    - `pubspec.yaml`
+   - `build.yaml`
    - `AndroidManifest.xml`
    - `Info.plist`
    - Bundle ID in Xcode + `build.gradle`
 3. Update `.env` with real URLs
-4. Drop your assets into `assets/icons/`
-5. Run `make setup`
-6. Start adding features under `lib/features/`
+4. Drop your GraphQL schema into `lib/graphql/schema.graphql`
+5. Drop your assets into `assets/icons/`
+6. Run `make setup`
+7. Start adding features under `lib/features/`
