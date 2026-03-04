@@ -79,3 +79,4 @@ lib/localization/generated/**
 # environment 
 .env
 .env*
+!.env.example
