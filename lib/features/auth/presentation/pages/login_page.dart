@@ -21,7 +21,6 @@ class LoginPage extends StatelessWidget {
       },
       child: CustomScaffold(
         showAppBar: true,
-        usePadding: true,
         body: Column(
           children: <Widget>[
             CustomButton(

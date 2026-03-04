@@ -109,7 +109,6 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ← resolve AppSizes here — safe since ScreenUtil is initialized
     final double effectiveBorderRadius = borderRadius ?? AppSizes.radiusMd;
     final double effectiveHeight = height ?? AppSizes.buttonHeight;
     final EdgeInsets effectivePadding = padding ??
