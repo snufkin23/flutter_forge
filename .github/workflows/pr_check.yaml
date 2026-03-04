@@ -1,0 +1,64 @@
+# Runs on every Pull Request to master
+# Checks: lint, format, tests
+# If any step fails → PR is blocked
+
+name: PR Check
+
+on:
+  pull_request:
+    branches:
+      - master
+
+# Cancel previous runs if new commit is pushed to same PR
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Download your code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Install Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.41.1"
+          channel: stable
+          cache: true  # caches Flutter between runs = faster
+
+      # 3. Java needed for Android tooling
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      # 4. Create .env so envied can generate
+      - name: Create .env
+        run: echo "GRAPHQL_URL=${{ secrets.GRAPHQL_URL }}" > .env
+
+      # 5. flutter pub get
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 6. Run build_runner (freezed, injectable, auto_route etc.)
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      # 7. flutter analyze
+      - name: Lint
+        run: flutter analyze --no-fatal-infos
+
+      # 8. Check formatting — fails if dart format would change anything
+      - name: Format check
+        run: dart format --output=none --set-exit-if-changed lib/
+
+      # 9. Run tests
+      - name: Test
+        run: flutter test
