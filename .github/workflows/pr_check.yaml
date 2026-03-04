@@ -30,7 +30,7 @@ jobs:
         with:
           flutter-version: "3.41.1"
           channel: stable
-          cache: true  # caches Flutter between runs = faster
+          cache: true
 
       # 3. Java needed for Android tooling
       - name: Setup Java
@@ -39,9 +39,11 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      # 4. Create .env so envied can generate
+      # 4. Create .env from GitHub secrets
       - name: Create .env
-        run: echo "GRAPHQL_URL=${{ secrets.GRAPHQL_URL }}" > .env
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+          echo "GRAPHQL_URL=${{ secrets.GRAPHQL_URL }}" >> .env
 
       # 5. flutter pub get
       - name: Install dependencies

@@ -19,10 +19,9 @@ jobs:
     name: Bump Version
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # needed to push commit back
+      contents: write
 
     outputs:
-      # Pass version info to next job
       version: ${{ steps.bump.outputs.version }}
       build: ${{ steps.bump.outputs.build }}
 
@@ -35,24 +34,14 @@ jobs:
       - name: Bump build number
         id: bump
         run: |
-          # Read version from pubspec.yaml e.g. "1.0.0+5"
           CURRENT=$(grep '^version:' pubspec.yaml | sed 's/version: //')
-
-          # Split into version and build number
-          VERSION=$(echo $CURRENT | cut -d'+' -f1)   # "1.0.0"
-          BUILD=$(echo $CURRENT | cut -d'+' -f2)      # "5"
-
-          # Increment build number by 1
-          NEW_BUILD=$((BUILD + 1))                     # "6"
-          NEW_FULL="${VERSION}+${NEW_BUILD}"           # "1.0.0+6"
-
-          # Write back to pubspec.yaml
+          VERSION=$(echo $CURRENT | cut -d'+' -f1)
+          BUILD=$(echo $CURRENT | cut -d'+' -f2)
+          NEW_BUILD=$((BUILD + 1))
+          NEW_FULL="${VERSION}+${NEW_BUILD}"
           sed -i "s/^version: .*/version: ${NEW_FULL}/" pubspec.yaml
-
-          # Pass to next job via outputs
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "build=${NEW_BUILD}" >> $GITHUB_OUTPUT
-
           echo "✅ Bumped: ${CURRENT} → ${NEW_FULL}"
 
       - name: Commit version bump
@@ -60,7 +49,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add pubspec.yaml
-          # [skip ci] prevents this commit from triggering another build
           git commit -m "chore: bump build number to ${{ steps.bump.outputs.build }} [skip ci]"
           git push
 
@@ -68,13 +56,12 @@ jobs:
   build_apk:
     name: Build APK
     runs-on: ubuntu-latest
-    needs: version_bump  # wait for version bump to finish first
+    needs: version_bump
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Pull latest so we have the bumped pubspec.yaml
       - name: Pull latest
         run: git pull origin master
 
@@ -91,8 +78,11 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      # Create .env from GitHub secrets
       - name: Create .env
-        run: echo "GRAPHQL_URL=${{ secrets.GRAPHQL_URL }}" > .env
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+          echo "GRAPHQL_URL=${{ secrets.GRAPHQL_URL }}" >> .env
 
       - name: Install dependencies
         run: flutter pub get
@@ -100,11 +90,9 @@ jobs:
       - name: Generate code
         run: dart run build_runner build --delete-conflicting-outputs
 
-      # Build release APK (unsigned — fine for internal testing)
       - name: Build APK
         run: flutter build apk --release
 
-      # Rename APK to include version e.g. flutter_forge-v1.0.0+6.apk
       - name: Rename APK
         run: |
           V=${{ needs.version_bump.outputs.version }}
@@ -112,8 +100,6 @@ jobs:
           mv build/app/outputs/flutter-apk/app-release.apk \
              build/app/outputs/flutter-apk/flutter_forge-v${V}+${B}.apk
 
-      # Upload APK to GitHub Release
-      # Find it at: Repo → Releases → latest
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -128,3 +114,4 @@ jobs:
           files: build/app/outputs/flutter-apk/flutter_forge-*.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
