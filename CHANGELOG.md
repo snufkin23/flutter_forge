@@ -1,6 +1,6 @@
 ## What's Changed
 
-**Version:** 1.0.0 | **Build:** 8
+**Version:** 1.0.0 | **Build:** 9
 
 ### 🐛 Bug Fixes
 - fix: remove explicit ndkVersion to fix CI build
@@ -16,6 +16,7 @@
 - chore: remove .env from tracking
 
 ### ⚙️ CI
+- ci: add write permissions to build_apk job
 - ci: generate localizations before build
 - ci: fix android ndk license acceptance
 - ci: update pr check workflow
