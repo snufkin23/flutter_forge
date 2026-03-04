@@ -13,54 +13,56 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  # UI & Icons
+  # ── UI ─────────────────────────────────────────
   cupertino_icons: ^1.0.8
   cached_network_image: ^3.4.1
+  google_fonts: ^8.0.2
+  flutter_screenutil_plus: ^1.5.0
+  flutter_native_splash: ^2.4.0
+  flutter_gen: ^5.4.0
+  nested: ^1.0.0
 
-  # State Management
+  # ── State ──────────────────────────────────────
   flutter_bloc: ^9.1.1
   fpdart: ^1.2.0
 
-  # DI & Routing
+  # ── DI ─────────────────────────────────────────
   get_it: ^9.2.1
   injectable: ^2.4.4
+
+  # ── Routing ────────────────────────────────────
   auto_route: ^11.1.0
 
-  # Networking
+  # ── Network (REST) ─────────────────────────────
   dio: ^5.4.3
+  connectivity_plus: ^7.0.0
 
-  # Serialization / Codegen
+  # ── Network (GraphQL) ──────────────────────────
+  ferry: ^0.16.1+2
+  gql_dio_link: ^2.0.0
+
+  # ── Storage ────────────────────────────────────
+  hive_ce: ^2.19.3
+  hive_ce_flutter: ^2.3.0
+  flutter_secure_storage: ^10.0.0
+  shared_preferences: ^2.2.3
+
+  # ── Serialization ──────────────────────────────
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
 
-  # Storage / Persistence
-  shared_preferences: ^2.2.3
-  flutter_secure_storage: ^10.0.0
-  hive_ce: ^2.19.3
-  hive_ce_flutter: ^2.3.0
-
-  # Utilities
+  # ── Utils ──────────────────────────────────────
   logger: ^2.0.2+1
-  connectivity_plus: ^7.0.0
   package_info_plus: ^9.0.0
   envied: ^1.3.3
   intl: ^0.20.2
-
-  # Splash
-  flutter_native_splash: ^2.4.0
-  flutter_gen: ^5.4.0
-  ferry: ^0.16.1+2
-  gql_dio_link: ^2.0.0
-  google_fonts: ^8.0.2
-  nested: ^1.0.0
-  flutter_screenutil_plus: ^1.5.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
 
-  # Code Generators
+  # ── Code Generation ────────────────────────────
   build_runner: ^2.11.1
   injectable_generator: ^2.6.2
   auto_route_generator: ^10.5.0
@@ -68,10 +70,14 @@ dev_dependencies:
   json_serializable: ^6.7.1
   hive_ce_generator: ^1.11.0
   flutter_gen_runner: ^5.4.0
-  flutter_launcher_icons: ^0.14.4
-  mocktail: ^1.0.4
   envied_generator: ^1.3.3
   intl_utils: ^2.8.7
+
+  # ── Build & Icons ──────────────────────────────
+  flutter_launcher_icons: ^0.14.4
+
+  # ── Testing ────────────────────────────────────
+  mocktail: ^1.0.4
 
 flutter:
   uses-material-design: true
