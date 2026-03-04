@@ -1,6 +1,6 @@
 ## What's Changed
 
-**Version:** 1.0.0 | **Build:** 7
+**Version:** 1.0.0 | **Build:** 8
 
 ### 🐛 Bug Fixes
 - fix: remove explicit ndkVersion to fix CI build
@@ -16,6 +16,7 @@
 - chore: remove .env from tracking
 
 ### ⚙️ CI
+- ci: generate localizations before build
 - ci: fix android ndk license acceptance
 - ci: update pr check workflow
 - ci: accept android sdk licenses
