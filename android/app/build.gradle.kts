@@ -8,7 +8,6 @@ plugins {
 android {
     namespace = "com.flutter_forge.flutter_forge"
     compileSdk = 36
-    ndkVersion = "28.0.12433566"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
