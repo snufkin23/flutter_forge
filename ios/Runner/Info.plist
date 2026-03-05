@@ -49,6 +49,16 @@
 		<key>NSUserNotificationsUsageDescription</key>
 		<string>This app needs notification access.</string>
 
+		<!-- ── Notifications ──────────────────────────── -->
+		<key>NSUserNotificationsUsageDescription</key>
+		<string>This app needs notification access to keep you updated.</string>
+
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+
 		<!-- ── UI ─────────────────────────────────────── -->
 		<key>UIApplicationSceneManifest</key>
 		<dict>

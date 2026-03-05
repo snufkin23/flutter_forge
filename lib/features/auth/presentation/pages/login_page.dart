@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_forge/core/app/presentation/blocs/app_permission/app_permission_cubit.dart';
+import 'package:flutter_forge/core/app/presentation/blocs/notification/notification_cubit.dart';
 import 'package:flutter_forge/core/constants/sizes.dart';
 import 'package:flutter_forge/core/extensions/context_ui_extension.dart';
 import 'package:flutter_forge/core/router/app_router.gr.dart';
@@ -60,8 +61,13 @@ class LoginPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               24.verticalSpace,
+
+              // ──────────────────────────────────────────────────
+              // Auth
+              // ──────────────────────────────────────────────────
               Text('Auth', style: AppTextStyles.titleMedium),
               12.verticalSpace,
+
               CustomButton.text(
                 label: 'Login',
                 onPressed: () => context.read<LoginCubit>().login(),
@@ -95,10 +101,7 @@ class LoginPage extends StatelessWidget {
               BlocSelector<AppPermissionCubit, AppPermissionState, AppPermissionStatus>(
                 selector: (AppPermissionState state) =>
                     state.statuses[AppPermission.camera] ?? AppPermissionStatus.initial,
-                builder: (
-                  BuildContext context,
-                  AppPermissionStatus status,
-                ) {
+                builder: (BuildContext context, AppPermissionStatus status) {
                   return Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(AppSizes.md),
@@ -149,16 +152,12 @@ class LoginPage extends StatelessWidget {
                 onPressed: () async {
                   final AppPermissionStatus status =
                       await context.read<AppPermissionCubit>().request(AppPermission.camera);
-
+                  if (!context.mounted) {
+                    return;
+                  }
                   if (status.isGranted) {
-                    if (!context.mounted) {
-                      return;
-                    }
                     context.showSuccessSnackbar('Camera granted ✅');
                   } else if (status.isPermanentlyDenied) {
-                    if (!context.mounted) {
-                      return;
-                    }
                     final bool? open = await context.showConfirmDialog(
                       title: 'Camera Permission',
                       message: 'Camera is permanently denied. Open settings?',
@@ -170,9 +169,6 @@ class LoginPage extends StatelessWidget {
                       await context.read<AppPermissionCubit>().openSettings();
                     }
                   } else {
-                    if (!context.mounted) {
-                      return;
-                    }
                     context.showErrorSnackbar(
                       'Camera permission ${status.name}',
                     );
@@ -180,9 +176,40 @@ class LoginPage extends StatelessWidget {
                 },
                 expanded: true,
               ),
+              // Request Gallery
               12.verticalSpace,
 
-              // Request camera + microphone together
+              CustomButton.text(
+                label: 'Request Gallery',
+                onPressed: () async {
+                  final AppPermissionStatus status =
+                      await context.read<AppPermissionCubit>().request(AppPermission.gallery);
+                  if (!context.mounted) {
+                    return;
+                  }
+                  if (status.isGranted) {
+                    context.showSuccessSnackbar('Gallery access granted ✅');
+                  } else if (status.isPermanentlyDenied) {
+                    final bool? open = await context.showConfirmDialog(
+                      title: 'Gallery Permission',
+                      message: 'Gallery is permanently denied. Open settings?',
+                    );
+                    if (open == true) {
+                      if (!context.mounted) {
+                        return;
+                      }
+                      await context.read<AppPermissionCubit>().openSettings();
+                    }
+                  } else {
+                    context.showErrorSnackbar(
+                      'Gallery permission ${status.name}',
+                    );
+                  }
+                },
+                expanded: true,
+              ),
+              12.verticalSpace,
+              // Request camera + microphone
               CustomButton.text(
                 label: 'Request Camera + Microphone',
                 onPressed: () async {
@@ -191,7 +218,6 @@ class LoginPage extends StatelessWidget {
                     AppPermission.camera,
                     AppPermission.microphone,
                   ]);
-
                   final StringBuffer buffer = StringBuffer();
                   results.forEach(
                     (AppPermission p, AppPermissionStatus s) =>
@@ -212,16 +238,12 @@ class LoginPage extends StatelessWidget {
                 onPressed: () async {
                   final AppPermissionStatus status =
                       await context.read<AppPermissionCubit>().request(AppPermission.location);
-
+                  if (!context.mounted) {
+                    return;
+                  }
                   if (status.isGranted) {
-                    if (!context.mounted) {
-                      return;
-                    }
                     context.showSuccessSnackbar('Location granted ✅');
                   } else if (status.isPermanentlyDenied) {
-                    if (!context.mounted) {
-                      return;
-                    }
                     final bool? open = await context.showConfirmDialog(
                       title: 'Location Permission',
                       message: 'Location is permanently denied. Open settings?',
@@ -233,9 +255,6 @@ class LoginPage extends StatelessWidget {
                       await context.read<AppPermissionCubit>().openSettings();
                     }
                   } else {
-                    if (!context.mounted) {
-                      return;
-                    }
                     context.showErrorSnackbar(
                       'Location permission ${status.name}',
                     );
@@ -245,7 +264,7 @@ class LoginPage extends StatelessWidget {
               ),
               12.verticalSpace,
 
-              // Check all permissions at once
+              // Check all permissions
               CustomOutlinedButton.text(
                 label: 'Check All Permissions',
                 onPressed: () async {
@@ -261,10 +280,7 @@ class LoginPage extends StatelessWidget {
 
               // All permissions status — reactive
               BlocBuilder<AppPermissionCubit, AppPermissionState>(
-                builder: (
-                  BuildContext context,
-                  AppPermissionState state,
-                ) {
+                builder: (BuildContext context, AppPermissionState state) {
                   return Column(
                     children: AppPermission.values.map(
                       (AppPermission permission) {
@@ -293,6 +309,184 @@ class LoginPage extends StatelessWidget {
                     ).toList(),
                   );
                 },
+              ),
+              24.verticalSpace,
+
+              // ──────────────────────────────────────────────────
+              // Notifications
+              // ──────────────────────────────────────────────────
+              Text('Notifications', style: AppTextStyles.titleMedium),
+              12.verticalSpace,
+
+              // Notification status indicator — reactive
+              BlocSelector<NotificationCubit, NotificationState, NotificationStatus>(
+                selector: (NotificationState state) => state.status,
+                builder: (BuildContext context, NotificationStatus status) {
+                  return Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(AppSizes.md),
+                    decoration: BoxDecoration(
+                      color: status == NotificationStatus.enabled
+                          ? Colors.green.withValues(alpha: 0.1)
+                          : Colors.grey.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(AppSizes.radiusMd),
+                      border: Border.all(
+                        color: status == NotificationStatus.enabled ? Colors.green : Colors.grey,
+                      ),
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          status == NotificationStatus.enabled
+                              ? Icons.notifications_active_rounded
+                              : Icons.notifications_off_rounded,
+                          color: status == NotificationStatus.enabled ? Colors.green : Colors.grey,
+                          size: AppSizes.iconMd,
+                        ),
+                        SizedBox(width: AppSizes.sm),
+                        Text(
+                          'Notifications: ${status.name}',
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color:
+                                status == NotificationStatus.enabled ? Colors.green : Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              12.verticalSpace,
+
+              // Check notification status
+              CustomOutlinedButton.text(
+                label: 'Check Notification Status',
+                onPressed: () async {
+                  await context.read<NotificationCubit>().checkStatus();
+                  if (!context.mounted) {
+                    return;
+                  }
+                  final NotificationStatus status = context.read<NotificationCubit>().state.status;
+                  context.showInfoSnackbar(
+                    'Notifications: ${status.name}',
+                  );
+                },
+                expanded: true,
+              ),
+              12.verticalSpace,
+
+              // Show instantly
+              BlocSelector<NotificationCubit, NotificationState, bool>(
+                selector: (NotificationState state) => state.isLoading,
+                builder: (BuildContext context, bool isLoading) {
+                  return CustomButton.text(
+                    label: 'Show Now',
+                    isLoading: isLoading,
+                    onPressed: () async {
+                      await context.read<NotificationCubit>().showNow(
+                            id: 0,
+                            title: 'Hello 👋',
+                            body: 'This is an instant notification',
+                          );
+                      if (!context.mounted) {
+                        return;
+                      }
+                      context.showSuccessSnackbar('Notification sent!');
+                    },
+                    expanded: true,
+                  );
+                },
+              ),
+              12.verticalSpace,
+
+              // Show after 5 seconds
+              CustomButton.text(
+                label: 'Show in 5 seconds',
+                onPressed: () async {
+                  await context.read<NotificationCubit>().scheduleAt(
+                        id: 2,
+                        title: 'Delayed 🕐',
+                        body: 'This appeared 5 seconds later',
+                        scheduledDate: DateTime.now().add(const Duration(seconds: 5)),
+                      );
+                  if (!context.mounted) {
+                    return;
+                  }
+                  context.showInfoSnackbar(
+                    'Notification coming in 5s — lock screen!',
+                  );
+                },
+                expanded: true,
+              ),
+              12.verticalSpace,
+
+              // Show after 10 seconds
+              CustomButton.text(
+                label: 'Show in 10 seconds',
+                onPressed: () async {
+                  await context.read<NotificationCubit>().scheduleAt(
+                        id: 3,
+                        title: 'Delayed 🕐',
+                        body: 'This appeared 10 seconds later',
+                        scheduledDate: DateTime.now().add(const Duration(seconds: 10)),
+                      );
+                  if (!context.mounted) {
+                    return;
+                  }
+                  context.showInfoSnackbar(
+                    'Notification coming in 10s — lock screen!',
+                  );
+                },
+                expanded: true,
+              ),
+              12.verticalSpace,
+
+              // Pending notifications count — reactive
+              BlocSelector<NotificationCubit, NotificationState, int>(
+                selector: (NotificationState state) => state.pending.length,
+                builder: (BuildContext context, int count) {
+                  return Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(AppSizes.md),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(AppSizes.radiusMd),
+                    ),
+                    child: Text(
+                      'Pending notifications: $count',
+                      style: AppTextStyles.bodyMedium,
+                    ),
+                  );
+                },
+              ),
+              12.verticalSpace,
+
+              // Refresh pending
+              CustomOutlinedButton.text(
+                label: 'Refresh Pending',
+                onPressed: () async {
+                  await context.read<NotificationCubit>().refreshPending();
+                  if (!context.mounted) {
+                    return;
+                  }
+                  final int count = context.read<NotificationCubit>().state.pending.length;
+                  context.showInfoSnackbar('Pending: $count');
+                },
+                expanded: true,
+              ),
+              12.verticalSpace,
+
+              // Cancel all
+              CustomOutlinedButton.text(
+                label: 'Cancel All Notifications',
+                onPressed: () async {
+                  await context.read<NotificationCubit>().cancelAll();
+                  if (!context.mounted) {
+                    return;
+                  }
+                  context.showSuccessSnackbar('All notifications cancelled');
+                },
+                expanded: true,
               ),
 
               40.verticalSpace,
