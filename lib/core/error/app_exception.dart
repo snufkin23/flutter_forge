@@ -19,13 +19,16 @@ abstract class AppException with _$AppException implements Exception {
   }) = UnauthenticatedException;
 
   // Navigation / Route
-  const factory AppException.navigation({required String message}) = NavigationException;
+  const factory AppException.navigation({required String message}) =
+      NavigationException;
 
   // Permission (device-level e.g. camera, location)
-  const factory AppException.permission({required String message}) = PermissionException;
+  const factory AppException.permission({required String message}) =
+      PermissionException;
 
   // Unknown
-  const factory AppException.unknown({@Default('An unexpected error occurred.') String message}) =
+  const factory AppException.unknown(
+          {@Default('An unexpected error occurred.') String message}) =
       UnknownAppException;
 }
 

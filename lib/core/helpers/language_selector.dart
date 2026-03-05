@@ -88,7 +88,8 @@ class _LangOptionWidget extends StatelessWidget {
               Text(
                 lang.short,
                 style: AppTextStyles.labelSmall.copyWith(
-                  color: _isSelected ? Colors.white : theme.colorScheme.onSurface,
+                  color:
+                      _isSelected ? Colors.white : theme.colorScheme.onSurface,
                   fontWeight: _isSelected ? FontWeight.w700 : FontWeight.w500,
                 ),
               ),

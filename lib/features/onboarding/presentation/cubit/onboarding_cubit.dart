@@ -15,10 +15,13 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   static const int _totalPages = 3;
 
   Future<void> checkStatus() async {
-    final bool completed = _storage.get<bool>(AppConstants.onboardingKey) ?? false;
+    final bool completed =
+        _storage.get<bool>(AppConstants.onboardingKey) ?? false;
     emit(
       state.copyWith(
-        status: completed ? OnboardingStatus.completed : OnboardingStatus.notCompleted,
+        status: completed
+            ? OnboardingStatus.completed
+            : OnboardingStatus.notCompleted,
       ),
     );
   }

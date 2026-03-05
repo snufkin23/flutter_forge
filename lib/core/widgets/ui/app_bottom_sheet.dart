@@ -88,7 +88,8 @@ class AppBottomSheet {
           minChildSize: minSize,
           maxChildSize: maxSize,
           expand: false,
-          builder: (_, ScrollController scrollController) => _BottomSheetContainer(
+          builder: (_, ScrollController scrollController) =>
+              _BottomSheetContainer(
             showDragHandle: showDragHandle,
             child: Column(
               children: <Widget>[
@@ -230,15 +231,17 @@ class _ListBottomSheet<T> extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: items.length,
-            separatorBuilder: (_, __) => showDividers ? const Divider(height: 1) : const SizedBox(),
+            separatorBuilder: (_, __) =>
+                showDividers ? const Divider(height: 1) : const SizedBox(),
             itemBuilder: (_, int index) {
               final AppBottomSheetItem<T> item = items[index];
               final Color color = item.isDestructive
                   ? AppColors.error
                   : (item.color ?? Theme.of(context).colorScheme.onSurface);
               return ListTile(
-                leading:
-                    item.icon != null ? Icon(item.icon, color: color, size: AppSizes.iconMd) : null,
+                leading: item.icon != null
+                    ? Icon(item.icon, color: color, size: AppSizes.iconMd)
+                    : null,
                 title: Text(
                   item.label,
                   style: AppTextStyles.bodyLarge.copyWith(color: color),

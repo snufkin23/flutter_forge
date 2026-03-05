@@ -98,9 +98,11 @@ class LoginPage extends StatelessWidget {
               12.verticalSpace,
 
               // Camera status indicator — reactive
-              BlocSelector<AppPermissionCubit, AppPermissionState, AppPermissionStatus>(
+              BlocSelector<AppPermissionCubit, AppPermissionState,
+                  AppPermissionStatus>(
                 selector: (AppPermissionState state) =>
-                    state.statuses[AppPermission.camera] ?? AppPermissionStatus.initial,
+                    state.statuses[AppPermission.camera] ??
+                    AppPermissionStatus.initial,
                 builder: (BuildContext context, AppPermissionStatus status) {
                   return Container(
                     width: double.infinity,
@@ -135,8 +137,9 @@ class LoginPage extends StatelessWidget {
               CustomOutlinedButton.text(
                 label: 'Check Camera Status',
                 onPressed: () async {
-                  final AppPermissionStatus status =
-                      await context.read<AppPermissionCubit>().check(AppPermission.camera);
+                  final AppPermissionStatus status = await context
+                      .read<AppPermissionCubit>()
+                      .check(AppPermission.camera);
                   if (!context.mounted) {
                     return;
                   }
@@ -150,8 +153,9 @@ class LoginPage extends StatelessWidget {
               CustomButton.text(
                 label: 'Request Camera',
                 onPressed: () async {
-                  final AppPermissionStatus status =
-                      await context.read<AppPermissionCubit>().request(AppPermission.camera);
+                  final AppPermissionStatus status = await context
+                      .read<AppPermissionCubit>()
+                      .request(AppPermission.camera);
                   if (!context.mounted) {
                     return;
                   }
@@ -182,8 +186,9 @@ class LoginPage extends StatelessWidget {
               CustomButton.text(
                 label: 'Request Gallery',
                 onPressed: () async {
-                  final AppPermissionStatus status =
-                      await context.read<AppPermissionCubit>().request(AppPermission.gallery);
+                  final AppPermissionStatus status = await context
+                      .read<AppPermissionCubit>()
+                      .request(AppPermission.gallery);
                   if (!context.mounted) {
                     return;
                   }
@@ -214,7 +219,9 @@ class LoginPage extends StatelessWidget {
                 label: 'Request Camera + Microphone',
                 onPressed: () async {
                   final Map<AppPermission, AppPermissionStatus> results =
-                      await context.read<AppPermissionCubit>().requestMultiple(<AppPermission>[
+                      await context
+                          .read<AppPermissionCubit>()
+                          .requestMultiple(<AppPermission>[
                     AppPermission.camera,
                     AppPermission.microphone,
                   ]);
@@ -236,8 +243,9 @@ class LoginPage extends StatelessWidget {
               CustomButton.text(
                 label: 'Request Location',
                 onPressed: () async {
-                  final AppPermissionStatus status =
-                      await context.read<AppPermissionCubit>().request(AppPermission.location);
+                  final AppPermissionStatus status = await context
+                      .read<AppPermissionCubit>()
+                      .request(AppPermission.location);
                   if (!context.mounted) {
                     return;
                   }
@@ -285,7 +293,8 @@ class LoginPage extends StatelessWidget {
                     children: AppPermission.values.map(
                       (AppPermission permission) {
                         final AppPermissionStatus status =
-                            state.statuses[permission] ?? AppPermissionStatus.initial;
+                            state.statuses[permission] ??
+                                AppPermissionStatus.initial;
                         return Padding(
                           padding: EdgeInsets.only(bottom: AppSizes.xs),
                           child: Row(
@@ -319,7 +328,8 @@ class LoginPage extends StatelessWidget {
               12.verticalSpace,
 
               // Notification status indicator — reactive
-              BlocSelector<NotificationCubit, NotificationState, NotificationStatus>(
+              BlocSelector<NotificationCubit, NotificationState,
+                  NotificationStatus>(
                 selector: (NotificationState state) => state.status,
                 builder: (BuildContext context, NotificationStatus status) {
                   return Container(
@@ -331,7 +341,9 @@ class LoginPage extends StatelessWidget {
                           : Colors.grey.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(AppSizes.radiusMd),
                       border: Border.all(
-                        color: status == NotificationStatus.enabled ? Colors.green : Colors.grey,
+                        color: status == NotificationStatus.enabled
+                            ? Colors.green
+                            : Colors.grey,
                       ),
                     ),
                     child: Row(
@@ -340,15 +352,18 @@ class LoginPage extends StatelessWidget {
                           status == NotificationStatus.enabled
                               ? Icons.notifications_active_rounded
                               : Icons.notifications_off_rounded,
-                          color: status == NotificationStatus.enabled ? Colors.green : Colors.grey,
+                          color: status == NotificationStatus.enabled
+                              ? Colors.green
+                              : Colors.grey,
                           size: AppSizes.iconMd,
                         ),
                         SizedBox(width: AppSizes.sm),
                         Text(
                           'Notifications: ${status.name}',
                           style: AppTextStyles.bodyMedium.copyWith(
-                            color:
-                                status == NotificationStatus.enabled ? Colors.green : Colors.grey,
+                            color: status == NotificationStatus.enabled
+                                ? Colors.green
+                                : Colors.grey,
                           ),
                         ),
                       ],
@@ -366,7 +381,8 @@ class LoginPage extends StatelessWidget {
                   if (!context.mounted) {
                     return;
                   }
-                  final NotificationStatus status = context.read<NotificationCubit>().state.status;
+                  final NotificationStatus status =
+                      context.read<NotificationCubit>().state.status;
                   context.showInfoSnackbar(
                     'Notifications: ${status.name}',
                   );
@@ -407,7 +423,8 @@ class LoginPage extends StatelessWidget {
                         id: 2,
                         title: 'Delayed 🕐',
                         body: 'This appeared 5 seconds later',
-                        scheduledDate: DateTime.now().add(const Duration(seconds: 5)),
+                        scheduledDate:
+                            DateTime.now().add(const Duration(seconds: 5)),
                       );
                   if (!context.mounted) {
                     return;
@@ -428,7 +445,8 @@ class LoginPage extends StatelessWidget {
                         id: 3,
                         title: 'Delayed 🕐',
                         body: 'This appeared 10 seconds later',
-                        scheduledDate: DateTime.now().add(const Duration(seconds: 10)),
+                        scheduledDate:
+                            DateTime.now().add(const Duration(seconds: 10)),
                       );
                   if (!context.mounted) {
                     return;
@@ -449,7 +467,8 @@ class LoginPage extends StatelessWidget {
                     width: double.infinity,
                     padding: EdgeInsets.all(AppSizes.md),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                      color:
+                          Theme.of(context).colorScheme.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(AppSizes.radiusMd),
                     ),
                     child: Text(
@@ -469,7 +488,8 @@ class LoginPage extends StatelessWidget {
                   if (!context.mounted) {
                     return;
                   }
-                  final int count = context.read<NotificationCubit>().state.pending.length;
+                  final int count =
+                      context.read<NotificationCubit>().state.pending.length;
                   context.showInfoSnackbar('Pending: $count');
                 },
                 expanded: true,

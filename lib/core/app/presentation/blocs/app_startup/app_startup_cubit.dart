@@ -26,7 +26,8 @@ class AppStartupCubit extends Cubit<AppStartupState> {
   ///
   Future<void> _init() async {
     await Future<void>.microtask(() async {
-      final bool hasOnboarded = _storage.get<bool>(AppConstants.onboardingKey) ?? false;
+      final bool hasOnboarded =
+          _storage.get<bool>(AppConstants.onboardingKey) ?? false;
       if (hasOnboarded) {
         emit(const _UnAuthenticated());
       }

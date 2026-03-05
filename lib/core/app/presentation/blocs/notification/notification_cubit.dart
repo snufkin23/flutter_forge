@@ -10,7 +10,8 @@ part 'notification_state.dart';
 
 @lazySingleton
 class NotificationCubit extends Cubit<NotificationState> {
-  NotificationCubit(this._notificationService) : super(const NotificationState());
+  NotificationCubit(this._notificationService)
+      : super(const NotificationState());
 
   final NotificationService _notificationService;
 
@@ -18,11 +19,14 @@ class NotificationCubit extends Cubit<NotificationState> {
   Future<void> checkStatus() async {
     try {
       emit(state.copyWith(isLoading: true, error: null));
-      final bool? enabled = await _notificationService.areNotificationsEnabled();
+      final bool? enabled =
+          await _notificationService.areNotificationsEnabled();
       emit(
         state.copyWith(
           isLoading: false,
-          status: enabled == true ? NotificationStatus.enabled : NotificationStatus.disabled,
+          status: enabled == true
+              ? NotificationStatus.enabled
+              : NotificationStatus.disabled,
         ),
       );
     } catch (e) {

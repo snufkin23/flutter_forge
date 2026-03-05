@@ -33,7 +33,8 @@ class _AppState extends State<App> {
             listener: (BuildContext _, AppStartupState state) {
               state.when(
                 initial: () => _appRouter.push(const OnboardingWrapperRoute()),
-                unAuthenticated: (String? _) => _appRouter.push(const LoginRoute()),
+                unAuthenticated: (String? _) =>
+                    _appRouter.push(const LoginRoute()),
                 authenticated: () => _appRouter.push(const HomeRoute()),
               );
             },

@@ -98,7 +98,8 @@ class AppPermissionCubit extends Cubit<AppPermissionState> {
 
   bool isGranted(AppPermission permission) => statusOf(permission).isGranted;
 
-  bool isPermanentlyDenied(AppPermission permission) => statusOf(permission).isPermanentlyDenied;
+  bool isPermanentlyDenied(AppPermission permission) =>
+      statusOf(permission).isPermanentlyDenied;
 
   // ── Internal state update ─────────────────────────────────────
   void _updateState(

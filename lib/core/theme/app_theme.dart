@@ -110,7 +110,8 @@ abstract class AppTheme {
         ),
       );
 
-  static ElevatedButtonThemeData _elevatedButtonTheme() => ElevatedButtonThemeData(
+  static ElevatedButtonThemeData _elevatedButtonTheme() =>
+      ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
@@ -122,7 +123,8 @@ abstract class AppTheme {
         ),
       );
 
-  static OutlinedButtonThemeData _outlinedButtonTheme() => OutlinedButtonThemeData(
+  static OutlinedButtonThemeData _outlinedButtonTheme() =>
+      OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
           minimumSize: const Size(double.infinity, 52),

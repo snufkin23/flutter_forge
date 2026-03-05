@@ -6,7 +6,8 @@ enum NotificationStatus { initial, enabled, disabled }
 abstract class NotificationState with _$NotificationState {
   const factory NotificationState({
     @Default(NotificationStatus.initial) NotificationStatus status,
-    @Default(<PendingNotificationRequest>[]) List<PendingNotificationRequest> pending,
+    @Default(<PendingNotificationRequest>[])
+    List<PendingNotificationRequest> pending,
     @Default(false) bool isLoading,
     String? error,
   }) = _NotificationState;

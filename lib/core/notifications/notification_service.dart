@@ -33,16 +33,19 @@ class NotificationService {
     tz.initializeTimeZones();
 
     // Dynamically get local timezone
-    final TimezoneInfo currentTimeZone = await FlutterTimezone.getLocalTimezone();
+    final TimezoneInfo currentTimeZone =
+        await FlutterTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(currentTimeZone.identifier));
 
     // 2️⃣ Android initialization settings
-    const AndroidInitializationSettings androidInitSettings = AndroidInitializationSettings(
+    const AndroidInitializationSettings androidInitSettings =
+        AndroidInitializationSettings(
       '@mipmap/ic_launcher',
     );
 
     // 3️⃣ iOS initialization settings
-    const DarwinInitializationSettings iosInitSettings = DarwinInitializationSettings(
+    const DarwinInitializationSettings iosInitSettings =
+        DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
@@ -61,8 +64,10 @@ class NotificationService {
 
     // 5️⃣ Request runtime permissions (Android 13+)
     if (Platform.isAndroid) {
-      final AndroidFlutterLocalNotificationsPlugin? androidImpl = _flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+      final AndroidFlutterLocalNotificationsPlugin? androidImpl =
+          _flutterLocalNotificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin>();
 
       // Notification permission (Android 13+)
       await androidImpl?.requestNotificationsPermission();
@@ -70,8 +75,10 @@ class NotificationService {
       // Exact alarms permission (Android 12+)
       await androidImpl?.requestExactAlarmsPermission();
     } else if (Platform.isIOS) {
-      final IOSFlutterLocalNotificationsPlugin? iosImplementation = _flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+      final IOSFlutterLocalNotificationsPlugin? iosImplementation =
+          _flutterLocalNotificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                  IOSFlutterLocalNotificationsPlugin>();
 
       await iosImplementation?.requestPermissions(
         alert: true,
@@ -102,7 +109,8 @@ class NotificationService {
     required String body,
     String? payload,
   }) async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
       _defaultChannelId,
       _defaultChannelName,
       channelDescription: 'General notifications',
@@ -143,9 +151,11 @@ class NotificationService {
     String? payload,
   }) async {
     // Convert to timezone aware datetime
-    final tz.TZDateTime tzScheduledDate = tz.TZDateTime.from(scheduledDate, tz.local);
+    final tz.TZDateTime tzScheduledDate =
+        tz.TZDateTime.from(scheduledDate, tz.local);
 
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
       _scheduleChannelId,
       _scheduleChannelName,
       channelDescription: 'Notifications scheduled in advance',
@@ -186,7 +196,8 @@ class NotificationService {
     required TimeOfDayValue time,
     String? payload,
   }) async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
       'daily_channel',
       'Daily Channel',
       channelDescription: 'Daily recurring notifications',
@@ -229,7 +240,8 @@ class NotificationService {
     required TimeOfDayValue time,
     String? payload,
   }) async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
       'weekly_channel',
       'Weekly Channel',
       channelDescription: 'Weekly recurring notifications',
@@ -301,10 +313,13 @@ class NotificationService {
   /// Get all active notifications (Android only)
   Future<List<ActiveNotification>> getActiveNotifications() async {
     if (Platform.isAndroid) {
-      final AndroidFlutterLocalNotificationsPlugin? androidImpl = _flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+      final AndroidFlutterLocalNotificationsPlugin? androidImpl =
+          _flutterLocalNotificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin>();
 
-      return await androidImpl?.getActiveNotifications() ?? <ActiveNotification>[];
+      return await androidImpl?.getActiveNotifications() ??
+          <ActiveNotification>[];
     }
     return <ActiveNotification>[];
   }
@@ -322,8 +337,10 @@ class NotificationService {
   /// Check if notifications are enabled
   Future<bool?> areNotificationsEnabled() async {
     if (Platform.isAndroid) {
-      final AndroidFlutterLocalNotificationsPlugin? androidImpl = _flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+      final AndroidFlutterLocalNotificationsPlugin? androidImpl =
+          _flutterLocalNotificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin>();
       return await androidImpl?.areNotificationsEnabled();
     }
     return null;

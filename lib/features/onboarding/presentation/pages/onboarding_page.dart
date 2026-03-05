@@ -63,7 +63,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     onNext: () => context.read<OnboardingCubit>().nextPage(),
                   ),
                   _DonePage(
-                    onFinish: () => context.read<OnboardingCubit>().completeOnboarding(),
+                    onFinish: () =>
+                        context.read<OnboardingCubit>().completeOnboarding(),
                   ),
                 ],
               ),
@@ -89,7 +90,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         decoration: BoxDecoration(
                           color: currentPage == index
                               ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
+                              : Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(
                             AppSizes.radiusFull,
                           ),
@@ -201,15 +205,19 @@ class _PermissionsPage extends StatelessWidget {
                     .map(
                       (_PermissionItem item) => _PermissionTile(
                         item: item,
-                        status: state.statuses[item.permission] ?? AppPermissionStatus.initial,
+                        status: state.statuses[item.permission] ??
+                            AppPermissionStatus.initial,
                         onTap: () async {
-                          final AppPermissionStatus result =
-                              await context.read<AppPermissionCubit>().request(item.permission);
+                          final AppPermissionStatus result = await context
+                              .read<AppPermissionCubit>()
+                              .request(item.permission);
                           if (result.isPermanentlyDenied) {
                             if (!context.mounted) {
                               return;
                             }
-                            await context.read<AppPermissionCubit>().openSettings();
+                            await context
+                                .read<AppPermissionCubit>()
+                                .openSettings();
                           }
                         },
                       ),
