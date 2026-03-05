@@ -27,9 +27,9 @@ abstract class AppException with _$AppException implements Exception {
       PermissionException;
 
   // Unknown
-  const factory AppException.unknown(
-          {@Default('An unexpected error occurred.') String message}) =
-      UnknownAppException;
+  const factory AppException.unknown({
+    @Default('An unexpected error occurred.') String message,
+  }) = UnknownAppException;
 }
 
 extension AppExceptionX on AppException {
