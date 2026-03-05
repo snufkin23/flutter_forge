@@ -1,9 +1,22 @@
 ## What's Changed
 
-**Version:** 1.0.0 | **Build:** 10
+**Version:** 1.0.0 | **Build:** 11
+
+### ✨ Features
+- feat: add local notifictation config,permission
+- feat: update app permission to global app provider
+- feat : add app permission cubit for app's permission
+- feat : add permission_handler package for system's permission
+
+### 🐛 Bug Fixes
+- fix: generated added in pr_yaml
 
 ### 🔧 Chores
-- chore: update app name to Flutter Forge
+- chore : adds permisison in onboarding page
+- chore : setup permission for android and iOS
+
+### ⚙️ CI
+- ci: add localization generation to pr check
 
 ---
 _Generated automatically from commit messages_
