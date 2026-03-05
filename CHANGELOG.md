@@ -1,6 +1,6 @@
 ## What's Changed
 
-**Version:** 1.0.0 | **Build:** 11
+**Version:** 1.0.0 | **Build:** 12
 
 ### ✨ Features
 - feat: add local notifictation config,permission
@@ -12,6 +12,8 @@
 - fix: generated added in pr_yaml
 
 ### 🔧 Chores
+- chore: format
+- chore: update format check
 - chore : adds permisison in onboarding page
 - chore : setup permission for android and iOS
 
