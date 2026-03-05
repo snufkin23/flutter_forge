@@ -9,8 +9,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 Future<void> main() async {
   await runZonedGuarded(
     () async {
-      final WidgetsBinding widgetsBinding =
-          WidgetsFlutterBinding.ensureInitialized();
+      final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
       // ── Splash ─────────────────────────────────────────────────
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -18,7 +17,7 @@ Future<void> main() async {
       // ── Flutter framework errors ────────────────────────────────
       FlutterError.onError = (FlutterErrorDetails details) {
         FlutterError.presentError(details);
-        // vODO: send to Crashlytics / Sentry in production
+        // tODO: send to Crashlytics / Sentry in production
         // FirebaseCrashlytics.instance.recordFlutterFatalError(details);
       };
 
@@ -34,7 +33,7 @@ Future<void> main() async {
     (Object error, StackTrace stack) {
       debugPrint('Unhandled error: $error');
       debugPrint('Stack trace: $stack');
-      // vODO: send to Crashlytics / Sentry in production
+      // tODO: send to Crashlytics / Sentry in production
       // FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     },
   );
