@@ -3,7 +3,7 @@
 <plist version="1.0">
 	<dict>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
-		<true/>
+		<true />
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
@@ -15,7 +15,7 @@
 		<key>CFBundleInfoDictionaryVersion</key>
 		<string>6.0</string>
 		<key>CFBundleName</key>
-		<string>flutter_forge</string>
+		<string>Flutter Forge</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 		<key>CFBundleShortVersionString</key>
@@ -25,11 +25,45 @@
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
-		<true/>
+		<true />
+
+		<!-- ── Permissions ────────────────────────────── -->
+		<key>NSCameraUsageDescription</key>
+		<string>This app needs camera access.</string>
+
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app needs photo library access.</string>
+
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>This app needs permission to save photos.</string>
+
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app needs location access while in use.</string>
+
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>This app needs location access at all times.</string>
+
+		<key>NSMicrophoneUsageDescription</key>
+		<string>This app needs microphone access.</string>
+
+		<key>NSUserNotificationsUsageDescription</key>
+		<string>This app needs notification access.</string>
+
+		<!-- ── Notifications ──────────────────────────── -->
+		<key>NSUserNotificationsUsageDescription</key>
+		<string>This app needs notification access to keep you updated.</string>
+
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+
+		<!-- ── UI ─────────────────────────────────────── -->
 		<key>UIApplicationSceneManifest</key>
 		<dict>
 			<key>UIApplicationSupportsMultipleScenes</key>
-			<false/>
+			<false />
 			<key>UISceneConfigurations</key>
 			<dict>
 				<key>UIWindowSceneSessionRoleApplication</key>
@@ -48,7 +82,7 @@
 			</dict>
 		</dict>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
-		<true/>
+		<true />
 		<key>UILaunchStoryboardName</key>
 		<string>LaunchScreen</string>
 		<key>UIMainStoryboardFile</key>
@@ -67,6 +101,6 @@
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
 		<key>UIStatusBarHidden</key>
-		<false/>
+		<false />
 	</dict>
 </plist>

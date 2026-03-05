@@ -8,6 +8,7 @@ on:
   pull_request:
     branches:
       - master
+      - develop
 
 # Cancel previous runs if new commit is pushed to same PR
 concurrency:
