@@ -5,10 +5,12 @@ part 'api_exception.freezed.dart';
 @freezed
 abstract class ApiException with _$ApiException implements Exception {
   /// 4xx/5xx or no response from server
-  const factory ApiException.network({required String message, int? statusCode}) = NetworkException;
+  const factory ApiException.network(
+      {required String message, int? statusCode}) = NetworkException;
 
   /// 500+ server error
-  const factory ApiException.server({required String message, int? statusCode}) = ServerException;
+  const factory ApiException.server(
+      {required String message, int? statusCode}) = ServerException;
 
   /// 401
   const factory ApiException.unauthorized({
@@ -16,12 +18,13 @@ abstract class ApiException with _$ApiException implements Exception {
   }) = UnauthorizedException;
 
   /// 403
-  const factory ApiException.forbidden({@Default('You do not have permission.') String message}) =
+  const factory ApiException.forbidden(
+          {@Default('You do not have permission.') String message}) =
       ForbiddenException;
 
   /// 404
-  const factory ApiException.notFound({@Default('Resource not found.') String message}) =
-      NotFoundException;
+  const factory ApiException.notFound(
+      {@Default('Resource not found.') String message}) = NotFoundException;
 
   /// Request timed out
   const factory ApiException.timeout({
@@ -29,7 +32,8 @@ abstract class ApiException with _$ApiException implements Exception {
   }) = TimeoutException;
 
   /// Any other unexpected API error
-  const factory ApiException.unknown({@Default('An unexpected error occurred.') String message}) =
+  const factory ApiException.unknown(
+          {@Default('An unexpected error occurred.') String message}) =
       UnknownApiException;
 }
 

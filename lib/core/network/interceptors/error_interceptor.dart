@@ -11,7 +11,8 @@ class ErrorInterceptor extends Interceptor {
       DioExceptionType.sendTimeout ||
       DioExceptionType.receiveTimeout =>
         const ApiException.timeout(),
-      DioExceptionType.cancel => const ApiException.unknown(message: 'Request was cancelled'),
+      DioExceptionType.cancel =>
+        const ApiException.unknown(message: 'Request was cancelled'),
       DioExceptionType.connectionError => const ApiException.network(
           message: 'No internet connection',
         ),

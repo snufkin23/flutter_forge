@@ -118,8 +118,8 @@ class CustomTextFormField extends StatefulWidget {
         onChanged: onChanged,
         keyboardType: TextInputType.number,
         maxLength: maxLength,
-        inputFormatters:
-            inputFormatters ?? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+        inputFormatters: inputFormatters ??
+            <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
         enabled: enabled ?? true,
       );
 
@@ -168,7 +168,9 @@ class CustomTextFormField extends StatefulWidget {
         onChanged: onChanged,
         keyboardType: TextInputType.phone,
         prefixIcon: Icons.phone_outlined,
-        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
         enabled: enabled ?? true,
       );
 
@@ -248,7 +250,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     if (widget.obscureText) {
       return IconButton(
         icon: Icon(
-          _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+          _obscureText
+              ? Icons.visibility_outlined
+              : Icons.visibility_off_outlined,
           size: AppSizes.iconMd,
           color: AppColors.lightSubtext,
         ),

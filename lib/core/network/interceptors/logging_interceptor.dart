@@ -20,7 +20,8 @@ class LoggingInterceptor extends Interceptor {
   }
 
   @override
-  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
+  void onResponse(
+      Response<dynamic> response, ResponseInterceptorHandler handler) {
     _logger.d(
       '← RESPONSE\n'
       '  Status  : ${response.statusCode}\n'

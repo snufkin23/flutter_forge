@@ -30,7 +30,8 @@ class AppSnackbar {
         elevation: 0,
         behavior: SnackBarBehavior.floating,
         duration: duration,
-        dismissDirection: dismissible ? DismissDirection.horizontal : DismissDirection.none,
+        dismissDirection:
+            dismissible ? DismissDirection.horizontal : DismissDirection.none,
         margin: _resolveMargin(position, alignment),
         padding: EdgeInsets.zero,
         action: actionLabel != null
@@ -131,8 +132,10 @@ class AppSnackbar {
     final double bottom = AppSizes.xxxl;
     final double top = AppSizes.xxxxxl;
 
-    final double leftMargin = alignment == SnackbarAlignment.right ? AppSizes.xxxxl : side;
-    final double rightMargin = alignment == SnackbarAlignment.left ? AppSizes.xxxxl : side;
+    final double leftMargin =
+        alignment == SnackbarAlignment.right ? AppSizes.xxxxl : side;
+    final double rightMargin =
+        alignment == SnackbarAlignment.left ? AppSizes.xxxxl : side;
 
     return position == SnackbarPosition.top
         ? EdgeInsets.only(

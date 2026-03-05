@@ -26,6 +26,40 @@
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
 		<true />
+
+		<!-- ── Permissions ────────────────────────────── -->
+		<key>NSCameraUsageDescription</key>
+		<string>This app needs camera access.</string>
+
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app needs photo library access.</string>
+
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>This app needs permission to save photos.</string>
+
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app needs location access while in use.</string>
+
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>This app needs location access at all times.</string>
+
+		<key>NSMicrophoneUsageDescription</key>
+		<string>This app needs microphone access.</string>
+
+		<key>NSUserNotificationsUsageDescription</key>
+		<string>This app needs notification access.</string>
+
+		<!-- ── Notifications ──────────────────────────── -->
+		<key>NSUserNotificationsUsageDescription</key>
+		<string>This app needs notification access to keep you updated.</string>
+
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+
+		<!-- ── UI ─────────────────────────────────────── -->
 		<key>UIApplicationSceneManifest</key>
 		<dict>
 			<key>UIApplicationSupportsMultipleScenes</key>

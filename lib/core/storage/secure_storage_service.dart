@@ -5,7 +5,8 @@ import 'package:injectable/injectable.dart';
 class SecureStorageService {
   SecureStorageService()
       : _storage = const FlutterSecureStorage(
-          iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
+          iOptions:
+              IOSOptions(accessibility: KeychainAccessibility.first_unlock),
         );
   final FlutterSecureStorage _storage;
 
