@@ -1,6 +1,6 @@
 ## What's Changed
 
-**Version:** 1.0.0 | **Build:** 12
+**Version:** 1.0.0 | **Build:** 13
 
 ### ✨ Features
 - feat: add local notifictation config,permission
