@@ -20,11 +20,14 @@ class GlobalAppProvider extends StatelessWidget {
     return MultiBlocProvider(
       providers: <SingleChildWidget>[
         BlocProvider<AppStartupCubit>(
-            create: (_) => AppStartupCubit(getIt<LocalStorage>())),
+          create: (_) => AppStartupCubit(getIt<LocalStorage>()),
+        ),
         BlocProvider<AppThemeCubit>(
-            create: (_) => AppThemeCubit(getIt<LocalStorage>())),
+          create: (_) => AppThemeCubit(getIt<LocalStorage>()),
+        ),
         BlocProvider<AppLocaleCubit>(
-            create: (_) => AppLocaleCubit(getIt<LocalStorage>())),
+          create: (_) => AppLocaleCubit(getIt<LocalStorage>()),
+        ),
         BlocProvider<AppPermissionCubit>(create: (_) => AppPermissionCubit()),
         BlocProvider<NotificationCubit>(
           create: (_) => getIt<NotificationCubit>(),

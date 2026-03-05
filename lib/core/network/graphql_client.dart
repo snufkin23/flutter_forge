@@ -22,6 +22,8 @@ class GQLClient {
 
   // ── Optimistic / manual cache write ──────────────────────────
   void writeToCache<TData, TVars>(
-          OperationRequest<TData, TVars> request, TData data) =>
+    OperationRequest<TData, TVars> request,
+    TData data,
+  ) =>
       _client.cache.writeQuery(request, data);
 }

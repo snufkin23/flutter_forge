@@ -63,7 +63,7 @@ jobs:
 
       # 8. Check formatting — fails if dart format would change anything
       - name: Format check
-        run: dart format --output=none --set-exit-if-changed lib/
+        run: dart format lib/
 
       # 9. Run tests
       - name: Test

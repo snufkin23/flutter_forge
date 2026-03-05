@@ -169,7 +169,7 @@ class CustomTextFormField extends StatefulWidget {
         keyboardType: TextInputType.phone,
         prefixIcon: Icons.phone_outlined,
         inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
+          FilteringTextInputFormatter.digitsOnly,
         ],
         enabled: enabled ?? true,
       );
