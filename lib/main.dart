@@ -9,7 +9,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 Future<void> main() async {
   await runZonedGuarded(
     () async {
-      final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+      final WidgetsBinding widgetsBinding =
+          WidgetsFlutterBinding.ensureInitialized();
 
       // ── Splash ─────────────────────────────────────────────────
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_forge/core/app/presentation/blocs/app_permission/app_permission_cubit.dart';
 import 'package:flutter_forge/core/constants/sizes.dart';
+import 'package:flutter_forge/core/helpers/language_selector.dart';
 import 'package:flutter_forge/core/router/app_router.gr.dart';
 import 'package:flutter_forge/core/theme/app_text_styles.dart';
 import 'package:flutter_forge/core/widgets/widgets.dart';
 import 'package:flutter_forge/features/onboarding/presentation/cubit/onboarding_cubit.dart';
+import 'package:flutter_forge/localization/localization.dart';
 import 'package:flutter_screenutil_plus/flutter_screenutil_plus.dart';
 
 @RoutePage()
@@ -47,10 +49,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
         }
       },
       child: CustomScaffold(
-        showAppBar: false,
+        showAppBar: true,
+        actions: const <Widget>[
+          LanguageSelector(),
+          SizedBox(width: 16),
+        ],
         body: Column(
           children: <Widget>[
-            // ── Pages ──────────────────────────────────────────
             Expanded(
               child: PageView(
                 controller: _pageController,
@@ -131,19 +136,19 @@ class _WelcomePage extends StatelessWidget {
           ),
           32.verticalSpace,
           Text(
-            'Welcome to\nFlutter Forge',
+            context.l10n.onboardingTitle1,
             textAlign: TextAlign.center,
             style: AppTextStyles.headlineLarge,
           ),
           16.verticalSpace,
           Text(
-            'A production-ready Flutter template.\nForge every new app from this.',
+            context.l10n.onboardingDesc1,
             textAlign: TextAlign.center,
             style: AppTextStyles.bodyMedium,
           ),
           48.verticalSpace,
           CustomButton.text(
-            label: 'Get Started',
+            label: context.l10n.getStarted,
             onPressed: onNext,
             expanded: true,
           ),
@@ -159,29 +164,29 @@ class _PermissionsPage extends StatelessWidget {
 
   final VoidCallback onNext;
 
-  static const List<_PermissionItem> _items = <_PermissionItem>[
-    _PermissionItem(
-      permission: AppPermission.camera,
-      icon: Icons.camera_alt_rounded,
-      title: 'Camera',
-      description: 'Take photos and scan documents',
-    ),
-    _PermissionItem(
-      permission: AppPermission.location,
-      icon: Icons.location_on_rounded,
-      title: 'Location',
-      description: 'Find nearby services',
-    ),
-    _PermissionItem(
-      permission: AppPermission.notification,
-      icon: Icons.notifications_rounded,
-      title: 'Notifications',
-      description: 'Stay updated with latest alerts',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<_PermissionItem> items = <_PermissionItem>[
+      _PermissionItem(
+        permission: AppPermission.camera,
+        icon: Icons.camera_alt_rounded,
+        title: context.l10n.camera,
+        description: context.l10n.cameraDesc,
+      ),
+      _PermissionItem(
+        permission: AppPermission.location,
+        icon: Icons.location_on_rounded,
+        title: context.l10n.location,
+        description: context.l10n.locationDesc,
+      ),
+      _PermissionItem(
+        permission: AppPermission.notification,
+        icon: Icons.notifications_rounded,
+        title: context.l10n.notifications,
+        description: context.l10n.notificationsDesc,
+      ),
+    ];
+
     return Padding(
       padding: EdgeInsets.all(AppSizes.pagePadding),
       child: Column(
@@ -189,19 +194,19 @@ class _PermissionsPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Allow Permissions',
+            context.l10n.allowPermissions,
             style: AppTextStyles.headlineMedium,
           ),
           8.verticalSpace,
           Text(
-            'We need a few permissions to give you the best experience.',
+            context.l10n.permissionsSubtitle,
             style: AppTextStyles.bodyMedium,
           ),
           32.verticalSpace,
           BlocBuilder<AppPermissionCubit, AppPermissionState>(
             builder: (BuildContext context, AppPermissionState state) {
               return Column(
-                children: _items
+                children: items
                     .map(
                       (_PermissionItem item) => _PermissionTile(
                         item: item,
@@ -228,13 +233,13 @@ class _PermissionsPage extends StatelessWidget {
           ),
           32.verticalSpace,
           CustomButton.text(
-            label: 'Continue',
+            label: context.l10n.continueButton,
             onPressed: onNext,
             expanded: true,
           ),
           12.verticalSpace,
           CustomOutlinedButton.text(
-            label: 'Skip for now',
+            label: context.l10n.skipForNow,
             onPressed: onNext,
             expanded: true,
           ),
@@ -357,18 +362,18 @@ class _DonePage extends StatelessWidget {
           ),
           32.verticalSpace,
           Text(
-            "You're all set!",
+            context.l10n.allSet,
             style: AppTextStyles.headlineLarge,
           ),
           16.verticalSpace,
           Text(
-            "Everything is ready.\nLet's get started.",
+            context.l10n.allSetSubtitle,
             textAlign: TextAlign.center,
             style: AppTextStyles.bodyMedium,
           ),
           48.verticalSpace,
           CustomButton.text(
-            label: 'Go to App',
+            label: context.l10n.goToApp,
             onPressed: onFinish,
             expanded: true,
           ),
