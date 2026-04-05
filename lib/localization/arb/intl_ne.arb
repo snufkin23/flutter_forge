@@ -17,5 +17,17 @@
   "welcomeBack": "फिर्ता स्वागत छ",
   "homeTitle": "गृहपृष्ठ",
   "errorSomethingWentWrong": "केही गलत भयो। कृपया पुनः प्रयास गर्नुहोस्।",
-  "errorNoInternet": "इन्टरनेट जडान छैन।"
+  "errorNoInternet": "इन्टरनेट जडान छैन।",
+  "allowPermissions": "अनुमतिहरू दिनुहोस्",
+  "permissionsSubtitle": "तपाईंलाई उत्कृष्ट अनुभव दिन हामीलाई केही अनुमतिहरू चाहिन्छ।",
+  "camera": "क्यामेरा",
+  "cameraDesc": "फोटो खिच्न र कागजातहरू स्क्यान गर्न",
+  "location": "स्थान",
+  "locationDesc": "नजिकैका सेवाहरू फेला पार्न",
+  "notifications": "सूचनाहरू",
+  "notificationsDesc": "नवीनतम अलर्टहरूको साथ अपडेट रहन",
+  "skipForNow": "अहिलेलाई छोड्नुहोस्",
+  "allSet": "तपाईं तयार हुनुहुन्छ!",
+  "allSetSubtitle": "सबै कुरा तयार छ।\nसुरु गरौं।",
+  "goToApp": "एपमा जानुहोस्"
 }

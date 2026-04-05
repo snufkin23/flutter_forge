@@ -17,5 +17,17 @@
   "welcomeBack": "Welcome Back",
   "homeTitle": "Home",
   "errorSomethingWentWrong": "Something went wrong. Please try again.",
-  "errorNoInternet": "No internet connection."
+  "errorNoInternet": "No internet connection.",
+  "allowPermissions": "Allow Permissions",
+  "permissionsSubtitle": "We need a few permissions to give you the best experience.",
+  "camera": "Camera",
+  "cameraDesc": "Take photos and scan documents",
+  "location": "Location",
+  "locationDesc": "Find nearby services",
+  "notifications": "Notifications",
+  "notificationsDesc": "Stay updated with latest alerts",
+  "skipForNow": "Skip for now",
+  "allSet": "You're all set!",
+  "allSetSubtitle": "Everything is ready.\nLet's get started.",
+  "goToApp": "Go to App"
 }

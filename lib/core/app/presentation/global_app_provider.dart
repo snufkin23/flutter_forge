@@ -26,7 +26,7 @@ class GlobalAppProvider extends StatelessWidget {
           create: (_) => AppThemeCubit(getIt<LocalStorage>()),
         ),
         BlocProvider<AppLocaleCubit>(
-          create: (_) => AppLocaleCubit(getIt<LocalStorage>()),
+          create: (_) => getIt<AppLocaleCubit>(),
         ),
         BlocProvider<AppPermissionCubit>(create: (_) => AppPermissionCubit()),
         BlocProvider<NotificationCubit>(
