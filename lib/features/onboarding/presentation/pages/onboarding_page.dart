@@ -7,7 +7,7 @@ import 'package:flutter_forge/core/helpers/language_selector.dart';
 import 'package:flutter_forge/core/router/app_router.gr.dart';
 import 'package:flutter_forge/core/theme/app_text_styles.dart';
 import 'package:flutter_forge/core/widgets/widgets.dart';
-import 'package:flutter_forge/features/onboarding/presentation/cubit/onboarding_cubit.dart';
+import 'package:flutter_forge/features/onboarding/presentation/blocs/onboarding_cubit.dart';
 import 'package:flutter_forge/localization/localization.dart';
 import 'package:flutter_screenutil_plus/flutter_screenutil_plus.dart';
 
