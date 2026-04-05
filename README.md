@@ -7,7 +7,7 @@ A production-ready Flutter template. Clone, configure, and start building — ev
 ## ⚡ Quick Start
 
 ```bash
-git clone https://github.com/sushantkhadka23/flutter_forge.git
+git clone https://github.com/snufkin23/flutter_forge.git
 cd flutter_forge
 make setup
 ```
