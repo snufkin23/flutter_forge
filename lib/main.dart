@@ -9,17 +9,15 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 Future<void> main() async {
   await runZonedGuarded(
     () async {
-      final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+      final WidgetsBinding widgetsBinding =
+          WidgetsFlutterBinding.ensureInitialized();
 
       // ── Splash ─────────────────────────────────────────────────
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
       // ── Flutter framework errors ────────────────────────────────
       FlutterError.onError = (FlutterErrorDetails details) {
-        FlutterError.presentError(details);
-        // tODO: send to Crashlytics / Sentry in production
-        // FirebaseCrashlytics.instance.recordFlutterFatalError(details);
-      };
+        FlutterError.presentError(details);};
 
       // ── Dependency injection ────────────────────────────────────
       await configureDependencies();

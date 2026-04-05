@@ -8,7 +8,7 @@ import 'package:flutter_forge/core/app/presentation/blocs/notification/notificat
 import 'package:flutter_forge/core/di/injection.dart';
 import 'package:flutter_forge/core/storage/local_storage.dart';
 import 'package:flutter_forge/features/auth/presentation/cubit/login_cubit.dart';
-import 'package:flutter_forge/features/onboarding/presentation/cubit/onboarding_cubit.dart';
+import 'package:flutter_forge/features/onboarding/presentation/blocs/onboarding_cubit.dart';
 import 'package:nested/nested.dart';
 
 class GlobalAppProvider extends StatelessWidget {
@@ -26,7 +26,7 @@ class GlobalAppProvider extends StatelessWidget {
           create: (_) => AppThemeCubit(getIt<LocalStorage>()),
         ),
         BlocProvider<AppLocaleCubit>(
-          create: (_) => AppLocaleCubit(getIt<LocalStorage>()),
+          create: (_) => getIt<AppLocaleCubit>(),
         ),
         BlocProvider<AppPermissionCubit>(create: (_) => AppPermissionCubit()),
         BlocProvider<NotificationCubit>(
