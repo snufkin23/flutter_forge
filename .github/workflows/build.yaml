@@ -1,4 +1,4 @@
-# Runs when code is pushed/merged to master
+# Runs when code is pushed/merged to master or manually triggered
 # Builds release APK, generates CHANGELOG and attaches to GitHub Release
 
 name: Build & Release
@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch: # Allows manual trigger from any branch
 
 concurrency:
   group: build-${{ github.ref }}
@@ -99,8 +100,6 @@ jobs:
           echo "---" >> CHANGELOG.md
           echo "_Generated automatically from commit messages_" >> CHANGELOG.md
 
-          cat CHANGELOG.md
-
       - name: Commit version bump and changelog
         run: |
           git config user.name "github-actions[bot]"
@@ -115,14 +114,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: version_bump
     permissions:
-      contents: write  # ← needed to create GitHub releases
+      contents: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Pull latest
-        run: git pull origin master
+        run: git pull origin ${{ github.ref_name }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -175,5 +174,6 @@ jobs:
           name: "v${{ needs.version_bump.outputs.version }} (build ${{ needs.version_bump.outputs.build }})"
           body_path: CHANGELOG.md
           files: build/app/outputs/flutter-apk/flutter_forge-*.apk
+          prerelease: ${{ github.ref_name != 'master' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
