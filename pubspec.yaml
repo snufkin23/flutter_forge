@@ -1,7 +1,7 @@
 name: flutter_forge
 description: "A flutter_forge template project — forge every new app from this."
 publish_to: "none"
-version: 1.0.0+15
+version: 1.0.0+16
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
