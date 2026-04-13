@@ -1,127 +1,27 @@
-# Runs when code is pushed/merged to master or manually triggered
-# Builds release APK, generates CHANGELOG and attaches to GitHub Release
-
 name: Build & Release
 
 on:
   push:
     branches:
       - master
-  workflow_dispatch: # Allows manual trigger from any branch
+  workflow_dispatch:
 
 concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  # ── Job 1: Bump build number ───────────────────────────────────
-  version_bump:
-    name: Bump Version
+  build_release:
+    name: Build & Release APK
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
-    outputs:
-      version: ${{ steps.bump.outputs.version }}
-      build: ${{ steps.bump.outputs.build }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
-
-      - name: Bump build number
-        id: bump
-        run: |
-          CURRENT=$(grep '^version:' pubspec.yaml | sed 's/version: //')
-          VERSION=$(echo $CURRENT | cut -d'+' -f1)
-          BUILD=$(echo $CURRENT | cut -d'+' -f2)
-          NEW_BUILD=$((BUILD + 1))
-          NEW_FULL="${VERSION}+${NEW_BUILD}"
-          sed -i "s/^version: .*/version: ${NEW_FULL}/" pubspec.yaml
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-          echo "build=${NEW_BUILD}" >> $GITHUB_OUTPUT
-          echo "✅ Bumped: ${CURRENT} → ${NEW_FULL}"
-
-      - name: Generate CHANGELOG
-        id: changelog
-        run: |
-          PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)
-
-          echo "## What's Changed" > CHANGELOG.md
-          echo "" >> CHANGELOG.md
-          echo "**Version:** ${{ steps.bump.outputs.version }} | **Build:** ${{ steps.bump.outputs.build }}" >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
-
-          FEATURES=$(git log ${PREV_TAG}..HEAD --pretty=format:"%s" | grep "^feat" | sed 's/^/- /')
-          if [ -n "$FEATURES" ]; then
-            echo "### ✨ Features" >> CHANGELOG.md
-            echo "$FEATURES" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-          fi
-
-          FIXES=$(git log ${PREV_TAG}..HEAD --pretty=format:"%s" | grep "^fix" | sed 's/^/- /')
-          if [ -n "$FIXES" ]; then
-            echo "### 🐛 Bug Fixes" >> CHANGELOG.md
-            echo "$FIXES" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-          fi
-
-          REFACTORS=$(git log ${PREV_TAG}..HEAD --pretty=format:"%s" | grep "^refactor" | sed 's/^/- /')
-          if [ -n "$REFACTORS" ]; then
-            echo "### ♻️ Refactors" >> CHANGELOG.md
-            echo "$REFACTORS" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-          fi
-
-          CHORES=$(git log ${PREV_TAG}..HEAD --pretty=format:"%s" | grep "^chore" | grep -v "bump build number" | sed 's/^/- /')
-          if [ -n "$CHORES" ]; then
-            echo "### 🔧 Chores" >> CHANGELOG.md
-            echo "$CHORES" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-          fi
-
-          CI=$(git log ${PREV_TAG}..HEAD --pretty=format:"%s" | grep "^ci" | sed 's/^/- /')
-          if [ -n "$CI" ]; then
-            echo "### ⚙️ CI" >> CHANGELOG.md
-            echo "$CI" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-          fi
-
-          DOCS=$(git log ${PREV_TAG}..HEAD --pretty=format:"%s" | grep "^docs" | sed 's/^/- /')
-          if [ -n "$DOCS" ]; then
-            echo "### 📝 Docs" >> CHANGELOG.md
-            echo "$DOCS" >> CHANGELOG.md
-            echo "" >> CHANGELOG.md
-          fi
-
-          echo "---" >> CHANGELOG.md
-          echo "_Generated automatically from commit messages_" >> CHANGELOG.md
-
-      - name: Commit version bump and changelog
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pubspec.yaml CHANGELOG.md
-          git commit -m "chore: bump build number to ${{ steps.bump.outputs.build }} [skip ci]"
-          git push
-
-  # ── Job 2: Build APK ──────────────────────────────────────────
-  build_apk:
-    name: Build APK
-    runs-on: ubuntu-latest
-    needs: version_bump
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Pull latest
-        run: git pull origin ${{ github.ref_name }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -136,18 +36,6 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Accept Android licenses
-        run: |
-          mkdir -p $ANDROID_SDK_ROOT/licenses
-          echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > $ANDROID_SDK_ROOT/licenses/android-sdk-license
-          echo "84831b9409646a918e30573bab4c9c91346d8abd" >> $ANDROID_SDK_ROOT/licenses/android-sdk-license
-          echo "33b6a2b64607f11b759f320ef9dff4ae5c47d97a" >> $ANDROID_SDK_ROOT/licenses/android-sdk-license
-
-      - name: Create .env
-        run: |
-          echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
-          echo "GRAPHQL_URL=${{ secrets.GRAPHQL_URL }}" >> .env
-
       - name: Install dependencies
         run: flutter pub get
 
@@ -157,23 +45,60 @@ jobs:
       - name: Generate localizations
         run: dart run intl_utils:generate
 
+      # ─────────────────────────────────────────────
+      # VERSION BUMP (inside same job — SAFE)
+      # ─────────────────────────────────────────────
+      - name: Bump version
+        id: version
+        run: |
+          CURRENT=$(grep '^version:' pubspec.yaml | sed 's/version: //')
+          VERSION=$(echo $CURRENT | cut -d'+' -f1)
+          BUILD=$(echo $CURRENT | cut -d'+' -f2)
+          NEW_BUILD=$((BUILD + 1))
+          NEW_FULL="${VERSION}+${NEW_BUILD}"
+
+          sed -i "s/^version: .*/version: ${NEW_FULL}/" pubspec.yaml
+
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "build=${NEW_BUILD}" >> $GITHUB_OUTPUT
+
+      # ─────────────────────────────────────────────
+      # CHANGELOG
+      # ─────────────────────────────────────────────
+      - name: Generate CHANGELOG
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)
+
+          echo "## Release Notes" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          echo "**Build:** ${{ steps.version.outputs.build }}" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+
+          git log ${PREV_TAG}..HEAD --pretty=format:"- %s" >> CHANGELOG.md
+
+      # ─────────────────────────────────────────────
+      # BUILD APK
+      # ─────────────────────────────────────────────
       - name: Build APK
         run: flutter build apk --release
 
       - name: Rename APK
         run: |
-          V=${{ needs.version_bump.outputs.version }}
-          B=${{ needs.version_bump.outputs.build }}
-          mv build/app/outputs/flutter-apk/app-release.apk \
-             build/app/outputs/flutter-apk/flutter_forge-v${V}+${B}.apk
+          V=${{ steps.version.outputs.version }}
+          B=${{ steps.version.outputs.build }}
 
+          mv build/app/outputs/flutter-apk/app-release.apk \
+             flutter_forge-v${V}+${B}.apk
+
+      # ─────────────────────────────────────────────
+      # RELEASE
+      # ─────────────────────────────────────────────
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ needs.version_bump.outputs.version }}+${{ needs.version_bump.outputs.build }}
-          name: "v${{ needs.version_bump.outputs.version }} (build ${{ needs.version_bump.outputs.build }})"
+          tag_name: v${{ steps.version.outputs.version }}+${{ steps.version.outputs.build }}
+          name: "v${{ steps.version.outputs.version }} (build ${{ steps.version.outputs.build }})"
           body_path: CHANGELOG.md
-          files: build/app/outputs/flutter-apk/flutter_forge-*.apk
-          prerelease: ${{ github.ref_name != 'master' }}
+          files: flutter_forge-v*.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
