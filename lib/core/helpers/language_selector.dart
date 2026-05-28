@@ -15,7 +15,8 @@ class LanguageSelector extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(AppSizes.xs),
           decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+            color: theme.colorScheme.surfaceContainerHighest
+                .withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(AppSizes.radiusFull),
             border: Border.all(
               color: theme.dividerColor.withValues(alpha: 0.1),

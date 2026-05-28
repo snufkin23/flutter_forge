@@ -17,7 +17,8 @@ Future<void> main() async {
 
       // ── Flutter framework errors ────────────────────────────────
       FlutterError.onError = (FlutterErrorDetails details) {
-        FlutterError.presentError(details);};
+        FlutterError.presentError(details);
+      };
 
       // ── Dependency injection ────────────────────────────────────
       await configureDependencies();
