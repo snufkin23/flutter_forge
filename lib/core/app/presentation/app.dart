@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_forge/core/app/presentation/blocs/app_locale/app_locale_cubit.dart';
@@ -30,12 +31,21 @@ class _AppState extends State<App> {
       child: MultiBlocListener(
         listeners: <SingleChildWidget>[
           BlocListener<AppStartupCubit, AppStartupState>(
-            listener: (BuildContext _, AppStartupState state) {
+            listener:
+                (BuildContext _, AppStartupState state) {
               state.when(
-                initial: () => _appRouter.push(const OnboardingWrapperRoute()),
-                unAuthenticated: (String? _) =>
-                    _appRouter.push(const LoginRoute()),
-                authenticated: () => _appRouter.push(const HomeRoute()),
+                initial: () => _appRouter
+                    .replaceAll(<PageRouteInfo<Object?>>[
+                  const OnboardingWrapperRoute(),
+                ]),
+                unAuthenticated: (String? _) => _appRouter
+                    .replaceAll(<PageRouteInfo<Object?>>[
+                  const LoginRoute()
+                ]),
+                authenticated: () => _appRouter
+                    .replaceAll(<PageRouteInfo<Object?>>[
+                  const HomeRoute()
+                ]),
               );
             },
           ),
@@ -57,11 +67,15 @@ class _AppMaterialRouter extends StatelessWidget {
       designSize: const Size(390, 844),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: BlocSelector<AppThemeCubit, ThemeMode, ThemeMode>(
+      child:
+          BlocSelector<AppThemeCubit, ThemeMode, ThemeMode>(
         selector: (ThemeMode themeMode) => themeMode,
-        builder: (BuildContext context, ThemeMode themeMode) {
-          return BlocSelector<AppLocaleCubit, AppLocale, Locale>(
-            selector: (AppLocale appLocale) => appLocale.locale,
+        builder:
+            (BuildContext context, ThemeMode themeMode) {
+          return BlocSelector<AppLocaleCubit, AppLocale,
+              Locale>(
+            selector: (AppLocale appLocale) =>
+                appLocale.locale,
             builder: (BuildContext context, Locale locale) {
               return MaterialApp.router(
                 routerConfig: appRouter.config(),
@@ -69,13 +83,15 @@ class _AppMaterialRouter extends StatelessWidget {
                 darkTheme: AppTheme.dark,
                 themeMode: themeMode,
                 locale: locale,
-                localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+                localizationsDelegates: const <LocalizationsDelegate<
+                    dynamic>>[
                   AppLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
                 ],
-                supportedLocales: AppLocalizations.delegate.supportedLocales,
+                supportedLocales: AppLocalizations
+                    .delegate.supportedLocales,
               );
             },
           );
