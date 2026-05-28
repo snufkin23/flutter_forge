@@ -1,15 +1,12 @@
 ## What's Changed
 
-**Version:** 1.0.0 | **Build:** 16
+**Version:** 1.0.0 | **Build:** 17
 
 ### ♻️ Refactors
-- refactor: move onboarding cubit to blocs directory and clean up main.dart
+- refactor: use replaceAll for startup navigation routes
 
-### ⚙️ CI
-- ci: allow manual workflow dispatch and improve build-and-release flexibility
-
-### 📝 Docs
-- docs: update repository URL in README
+### 🔧 Chores
+- chore: format code style in language_selector.dart and main.dart
 
 ---
 _Generated automatically from commit messages_
